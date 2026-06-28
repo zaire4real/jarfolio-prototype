@@ -87,6 +87,50 @@ body.onboarding-open {
   letter-spacing: 0;
 }
 
+.onboarding-progress {
+  display: grid;
+  grid-template-columns: auto minmax(28px, 1fr) auto;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 24px;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.onboarding-progress > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  white-space: nowrap;
+}
+
+.onboarding-progress b {
+  display: grid;
+  width: 26px;
+  height: 26px;
+  place-items: center;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: var(--surface-2);
+}
+
+.onboarding-progress i {
+  height: 1px;
+  background: var(--line);
+}
+
+.onboarding-progress .active,
+.onboarding-progress .complete {
+  color: var(--teal);
+}
+
+.onboarding-progress .active b,
+.onboarding-progress .complete b {
+  border-color: var(--teal);
+  background: var(--teal-2);
+}
+
 .onboarding-intro {
   margin: 0;
   color: var(--muted);
@@ -95,9 +139,12 @@ body.onboarding-open {
 
 .onboarding-form {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 16px;
   margin-top: 26px;
+}
+
+.onboarding-step {
+  display: grid;
+  gap: 16px;
 }
 
 .onboarding-form label {
@@ -116,9 +163,20 @@ body.onboarding-open {
 }
 
 .onboarding-submit {
-  grid-column: 1 / -1;
   min-height: 48px;
   margin-top: 4px;
+}
+
+.onboarding-actions {
+  display: grid;
+  grid-template-columns: minmax(110px, 0.7fr) minmax(0, 1.3fr);
+  gap: 10px;
+}
+
+.onboarding-actions .ghost-button,
+.onboarding-actions .submit-button {
+  width: 100%;
+  min-height: 48px;
 }
 
 button,
@@ -1055,8 +1113,12 @@ label {
     grid-template-columns: 1fr;
   }
 
-  .onboarding-submit {
-    grid-column: 1;
+  .onboarding-progress > span > span {
+    display: none;
+  }
+
+  .onboarding-actions {
+    grid-template-columns: 1fr 1.3fr;
   }
 
   .topbar-actions {
