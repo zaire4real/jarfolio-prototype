@@ -15,6 +15,35 @@
     <link rel="stylesheet" href="./styles.css">
   </head>
   <body>
+    <div class="onboarding-overlay" id="onboardingOverlay" hidden>
+      <section class="onboarding-dialog" role="dialog" aria-modal="true" aria-labelledby="onboardingTitle">
+        <div class="onboarding-brand">
+          <div class="brand-mark" aria-hidden="true">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+          <strong>Jarfolio</strong>
+        </div>
+        <p class="eyebrow" id="onboardingEyebrow">首次設定</p>
+        <h1 id="onboardingTitle">歡迎使用 Jarfolio</h1>
+        <p class="onboarding-intro" id="onboardingIntro">先選擇語言與地區，我們會設定合適的幣別與顯示方式。</p>
+        <form class="onboarding-form" id="onboardingForm">
+          <label>
+            <span id="onboardingLanguageLabel">語言</span>
+            <select name="language" id="onboardingLanguage"></select>
+          </label>
+          <label>
+            <span id="onboardingCountryLabel">國家/地區</span>
+            <select name="country" id="onboardingCountry"></select>
+          </label>
+          <button class="submit-button onboarding-submit" type="submit">
+            <span id="onboardingContinue">開始使用</span>
+          </button>
+        </form>
+      </section>
+    </div>
+
     <div class="app" data-view="overview">
       <aside class="sidebar">
         <div class="brand">
