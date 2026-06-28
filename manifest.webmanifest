@@ -1,0 +1,19 @@
+{
+  "name": "Jarfolio",
+  "short_name": "Jarfolio",
+  "description": "Personal finance prototype for cashflow, assets, liabilities, investments, and six-account budgeting.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f4f1e8",
+  "theme_color": "#176f66",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "./icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
