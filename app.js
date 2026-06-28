@@ -979,6 +979,93 @@ Object.assign(copy, {
   }
 });
 
+const onboardingMessages = {
+  "zh-Hant": {
+    eyebrow: "首次設定",
+    title: "歡迎使用 Jarfolio",
+    intro: "先選擇語言與地區，我們會設定合適的幣別與顯示方式。",
+    continue: "開始使用"
+  },
+  "zh-Hans": {
+    eyebrow: "首次设置",
+    title: "欢迎使用 Jarfolio",
+    intro: "请先选择语言和地区，我们会设置合适的币种与显示方式。",
+    continue: "开始使用"
+  },
+  en: {
+    eyebrow: "FIRST SETUP",
+    title: "Welcome to Jarfolio",
+    intro: "Choose your language and region to set the right currency and display format.",
+    continue: "Get started"
+  },
+  ja: {
+    eyebrow: "初期設定",
+    title: "Jarfolioへようこそ",
+    intro: "言語と地域を選択すると、通貨と表示形式が自動で設定されます。",
+    continue: "はじめる"
+  },
+  es: {
+    eyebrow: "CONFIGURACIÓN INICIAL",
+    title: "Te damos la bienvenida a Jarfolio",
+    intro: "Elige tu idioma y región para configurar la moneda y el formato adecuados.",
+    continue: "Comenzar"
+  },
+  fr: {
+    eyebrow: "PREMIÈRE CONFIGURATION",
+    title: "Bienvenue dans Jarfolio",
+    intro: "Choisissez votre langue et votre région pour définir la devise et le format adaptés.",
+    continue: "Commencer"
+  },
+  de: {
+    eyebrow: "ERSTE EINRICHTUNG",
+    title: "Willkommen bei Jarfolio",
+    intro: "Wähle Sprache und Region, um Währung und Anzeigeformat festzulegen.",
+    continue: "Loslegen"
+  },
+  "pt-BR": {
+    eyebrow: "CONFIGURAÇÃO INICIAL",
+    title: "Boas-vindas ao Jarfolio",
+    intro: "Escolha seu idioma e região para definir a moeda e o formato corretos.",
+    continue: "Começar"
+  },
+  ko: {
+    eyebrow: "첫 설정",
+    title: "Jarfolio에 오신 것을 환영합니다",
+    intro: "언어와 지역을 선택하면 알맞은 통화와 표시 형식이 설정됩니다.",
+    continue: "시작하기"
+  },
+  id: {
+    eyebrow: "PENGATURAN AWAL",
+    title: "Selamat datang di Jarfolio",
+    intro: "Pilih bahasa dan wilayah untuk mengatur mata uang serta format tampilan.",
+    continue: "Mulai"
+  },
+  th: {
+    eyebrow: "ตั้งค่าครั้งแรก",
+    title: "ยินดีต้อนรับสู่ Jarfolio",
+    intro: "เลือกภาษาและภูมิภาคเพื่อกำหนดสกุลเงินและรูปแบบการแสดงผลที่เหมาะสม",
+    continue: "เริ่มใช้งาน"
+  },
+  vi: {
+    eyebrow: "THIẾT LẬP BAN ĐẦU",
+    title: "Chào mừng đến với Jarfolio",
+    intro: "Chọn ngôn ngữ và khu vực để thiết lập tiền tệ cùng định dạng phù hợp.",
+    continue: "Bắt đầu"
+  },
+  hi: {
+    eyebrow: "पहली बार सेटअप",
+    title: "Jarfolio में आपका स्वागत है",
+    intro: "सही मुद्रा और प्रदर्शन प्रारूप के लिए अपनी भाषा और क्षेत्र चुनें।",
+    continue: "शुरू करें"
+  },
+  ar: {
+    eyebrow: "الإعداد الأول",
+    title: "مرحبًا بك في Jarfolio",
+    intro: "اختر اللغة والمنطقة لضبط العملة وتنسيق العرض المناسبين.",
+    continue: "ابدأ"
+  }
+};
+
 const categoryLabels = {
   food: { "zh-Hant": "飲食", "zh-Hans": "饮食", en: "Food", ja: "食費" },
   transport: { "zh-Hant": "交通", "zh-Hans": "交通", en: "Transport", ja: "交通" },
@@ -1135,11 +1222,36 @@ const assetColors = ["#176f66", "#bd7b12", "#d95d47", "#4759a6", "#b24766"];
 const storageKey = "jarfolio-prototype-state-empty-v1";
 const debtSacrificeOrder = ["play", "giving", "education", "longTermSavings", "financialFreedom"];
 const defaultDebtSacrificeAccounts = ["play", "giving", "education", "longTermSavings"];
+const supportedLanguages = ["zh-Hant", "zh-Hans", "en", "ja", "es", "fr", "de", "pt-BR", "ko", "id", "th", "vi", "hi", "ar"];
+
+function detectBrowserLanguage() {
+  const locale = navigator.languages?.[0] || navigator.language || "en";
+  const normalized = locale.toLowerCase();
+  if (normalized.startsWith("zh")) {
+    return /(?:-cn|-sg|hans)/.test(normalized) ? "zh-Hans" : "zh-Hant";
+  }
+  if (normalized.startsWith("pt")) return "pt-BR";
+  const match = supportedLanguages.find((language) => normalized === language.toLowerCase() || normalized.startsWith(`${language.toLowerCase()}-`));
+  return match || "en";
+}
+
+function detectBrowserCountry() {
+  const locale = navigator.languages?.[0] || navigator.language || "en-US";
+  try {
+    const region = new Intl.Locale(locale).maximize().region;
+    return currencyByCountry[region] ? region : "US";
+  } catch {
+    return "US";
+  }
+}
+
+const detectedCountry = detectBrowserCountry();
 
 const defaultState = {
-  language: "zh-Hant",
-  country: "TW",
-  currency: "TWD",
+  language: detectBrowserLanguage(),
+  country: detectedCountry,
+  currency: currencyByCountry[detectedCountry] || "USD",
+  onboardingComplete: false,
   monthlyIncome: 0,
   debtPriority: false,
   debtSacrificeAccounts: defaultDebtSacrificeAccounts,
@@ -1173,7 +1285,13 @@ function uid(prefix) {
 function loadState() {
   try {
     const stored = localStorage.getItem(storageKey);
-    return stored ? { ...structuredClone(defaultState), ...JSON.parse(stored) } : structuredClone(defaultState);
+    if (!stored) return structuredClone(defaultState);
+    const parsed = JSON.parse(stored);
+    return {
+      ...structuredClone(defaultState),
+      ...parsed,
+      onboardingComplete: parsed.onboardingComplete ?? true
+    };
   } catch {
     return structuredClone(defaultState);
   }
@@ -2000,6 +2118,45 @@ function renderSettings() {
   }
 }
 
+function populateOnboardingOptions() {
+  const languageSelect = document.getElementById("onboardingLanguage");
+  const countrySelect = document.getElementById("onboardingCountry");
+  if (!languageSelect.options.length) {
+    languageSelect.innerHTML = document.getElementById("languageSelect").innerHTML;
+  }
+  if (!countrySelect.options.length) {
+    countrySelect.innerHTML = document.getElementById("countrySelect").innerHTML;
+  }
+}
+
+function updateOnboardingLanguage(language) {
+  const messages = onboardingMessages[language] || onboardingMessages.en;
+  const overlay = document.getElementById("onboardingOverlay");
+  overlay.lang = language;
+  overlay.dir = language === "ar" ? "rtl" : "ltr";
+  document.getElementById("onboardingEyebrow").textContent = messages.eyebrow;
+  document.getElementById("onboardingTitle").textContent = messages.title;
+  document.getElementById("onboardingIntro").textContent = messages.intro;
+  document.getElementById("onboardingContinue").textContent = messages.continue;
+  document.getElementById("onboardingLanguageLabel").textContent = copy[language]?.language || copy.en.language;
+  document.getElementById("onboardingCountryLabel").textContent = copy[language]?.country || copy.en.country;
+}
+
+function renderOnboarding() {
+  const overlay = document.getElementById("onboardingOverlay");
+  if (state.onboardingComplete) {
+    overlay.hidden = true;
+    document.body.classList.remove("onboarding-open");
+    return;
+  }
+  populateOnboardingOptions();
+  document.getElementById("onboardingLanguage").value = state.language;
+  document.getElementById("onboardingCountry").value = state.country;
+  updateOnboardingLanguage(state.language);
+  overlay.hidden = false;
+  document.body.classList.add("onboarding-open");
+}
+
 function render() {
   renderIcons();
   renderI18n();
@@ -2015,6 +2172,7 @@ function render() {
   renderQuickAccountState();
   renderInvestmentCurrencyOptions();
   renderSettings();
+  renderOnboarding();
 }
 
 function toast(message) {
@@ -2106,6 +2264,21 @@ function startEditTransaction(id) {
 }
 
 function bindEvents() {
+  document.getElementById("onboardingLanguage").addEventListener("change", (event) => {
+    updateOnboardingLanguage(event.target.value);
+  });
+
+  document.getElementById("onboardingForm").addEventListener("submit", (event) => {
+    event.preventDefault();
+    const form = new FormData(event.currentTarget);
+    state.language = form.get("language");
+    state.country = form.get("country");
+    state.currency = currencyByCountry[state.country] || state.currency;
+    state.onboardingComplete = true;
+    saveState();
+    render();
+  });
+
   document.querySelectorAll("[data-target]").forEach((button) => {
     button.addEventListener("click", () => renderNavigation(button.dataset.target));
   });
