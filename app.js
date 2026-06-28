@@ -1066,6 +1066,24 @@ const onboardingMessages = {
   }
 };
 
+const countryLabelsByLanguage = {
+  "zh-Hant": { TW: "台灣", HK: "香港", CN: "中國大陸" },
+  "zh-Hans": { TW: "中国台湾", HK: "中国香港", CN: "中国大陆" }
+};
+const defaultCountryLabels = { TW: "台灣", HK: "香港", CN: "中国大陆" };
+
+function updateCountryOptionLabels(language) {
+  const labels = countryLabelsByLanguage[language] || defaultCountryLabels;
+  ["countrySelect", "onboardingCountry"].forEach((selectId) => {
+    const select = document.getElementById(selectId);
+    if (!select) return;
+    Object.entries(labels).forEach(([value, text]) => {
+      const option = select.querySelector(`option[value="${value}"]`);
+      if (option) option.textContent = text;
+    });
+  });
+}
+
 const categoryLabels = {
   food: { "zh-Hant": "飲食", "zh-Hans": "饮食", en: "Food", ja: "食費" },
   transport: { "zh-Hant": "交通", "zh-Hans": "交通", en: "Transport", ja: "交通" },
@@ -1683,6 +1701,7 @@ function renderI18n() {
   document.querySelectorAll("[data-placeholder-key]").forEach((node) => {
     node.placeholder = t(node.dataset.placeholderKey);
   });
+  updateCountryOptionLabels(state.language);
 }
 
 function renderNavigation(active = document.querySelector(".app").dataset.view) {
@@ -2140,6 +2159,7 @@ function updateOnboardingLanguage(language) {
   document.getElementById("onboardingContinue").textContent = messages.continue;
   document.getElementById("onboardingLanguageLabel").textContent = copy[language]?.language || copy.en.language;
   document.getElementById("onboardingCountryLabel").textContent = copy[language]?.country || copy.en.country;
+  updateCountryOptionLabels(language);
 }
 
 function renderOnboarding() {
