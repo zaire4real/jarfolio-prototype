@@ -1,0 +1,644 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Jarfolio</title>
+    <meta name="description" content="Jarfolio personal finance prototype for cashflow, assets, liabilities, investments, and six-account budgeting.">
+    <meta name="theme-color" content="#176f66">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="Jarfolio">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <link rel="manifest" href="./manifest.webmanifest">
+    <link rel="icon" href="./icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="./icon.svg">
+    <link rel="stylesheet" href="./styles.css">
+  </head>
+  <body>
+    <div class="app" data-view="overview">
+      <aside class="sidebar">
+        <div class="brand">
+          <div class="brand-mark" aria-hidden="true">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+          <div>
+            <strong>Jarfolio</strong>
+            <small data-i18n="tagline">個人資產中控台</small>
+          </div>
+        </div>
+
+        <nav class="nav" aria-label="Primary">
+          <button class="nav-item active" data-target="overview">
+            <span data-icon="dashboard"></span>
+            <span data-i18n="navOverview">總覽</span>
+          </button>
+          <button class="nav-item" data-target="ledger">
+            <span data-icon="ledger"></span>
+            <span data-i18n="navLedger">記帳</span>
+          </button>
+          <button class="nav-item" data-target="assets">
+            <span data-icon="assets"></span>
+            <span data-i18n="navAssets">資產</span>
+          </button>
+          <button class="nav-item" data-target="liabilities">
+            <span data-icon="liabilities"></span>
+            <span data-i18n="navLiabilities">負債</span>
+          </button>
+          <button class="nav-item" data-target="settings">
+            <span data-icon="settings"></span>
+            <span data-i18n="navSettings">設定</span>
+          </button>
+        </nav>
+
+        <div class="sidebar-panel">
+          <small data-i18n="defaultCurrency">預設幣別</small>
+          <strong id="sidebarCurrency">TWD</strong>
+          <div class="status-row">
+            <span data-i18n="priceStatus">價格</span>
+            <b id="priceStatusText">已更新</b>
+          </div>
+        </div>
+      </aside>
+
+      <main class="main">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow" data-i18n="todayLabel">今日財務概況</p>
+            <h1 id="pageTitle">總覽</h1>
+          </div>
+          <div class="topbar-actions">
+            <select id="quickLanguage" aria-label="Language">
+              <option value="zh-Hant">繁體中文</option>
+              <option value="zh-Hans">简体中文</option>
+              <option value="en">English</option>
+              <option value="ja">日本語</option>
+              <option value="es">Español</option>
+              <option value="fr">Français</option>
+              <option value="de">Deutsch</option>
+              <option value="pt-BR">Português</option>
+              <option value="ko">한국어</option>
+              <option value="id">Bahasa Indonesia</option>
+              <option value="th">ไทย</option>
+              <option value="vi">Tiếng Việt</option>
+              <option value="hi">हिन्दी</option>
+              <option value="ar">العربية</option>
+            </select>
+            <button class="icon-button" id="lockButton" title="Lock">
+              <span data-icon="lock"></span>
+            </button>
+          </div>
+        </header>
+
+        <section class="view active" id="overviewView" data-view-panel="overview">
+          <div class="summary-grid">
+            <article class="metric primary">
+              <span data-i18n="netWorth">淨資產</span>
+              <strong id="netWorthValue"></strong>
+              <small id="netWorthHint"></small>
+            </article>
+            <article class="metric">
+              <span data-i18n="monthlyIncome">本月收入</span>
+              <strong id="incomeValue"></strong>
+              <small data-i18n="afterTax">稅後估算</small>
+            </article>
+            <article class="metric">
+              <span data-i18n="monthlyExpense">本月支出</span>
+              <strong id="expenseValue"></strong>
+              <small id="expenseHint"></small>
+            </article>
+            <article class="metric">
+              <span data-i18n="debtRatio">負債比</span>
+              <strong id="debtRatioValue"></strong>
+              <small data-i18n="liabilityVsAsset">負債 / 資產</small>
+            </article>
+          </div>
+
+          <div class="workspace two-col">
+            <section class="panel allocation-panel">
+              <div class="panel-head">
+                <div>
+                  <p class="eyebrow" data-i18n="assetMix">資產配置</p>
+                  <h2 data-i18n="portfolio">資產組合</h2>
+                </div>
+                <button class="action-button" id="syncPrices">
+                  <span data-icon="refresh"></span>
+                  <span data-i18n="syncPrices">同步價格</span>
+                </button>
+              </div>
+              <p class="fineprint" data-i18n="marketDataNote">原型中加密貨幣可嘗試公開行情同步；股票、ETF、基金、貴金屬需要正式行情資料商或 API key。</p>
+              <div class="allocation-layout">
+                <div class="donut" id="assetDonut" role="img" aria-label="Asset allocation chart">
+                  <div>
+                    <b id="assetTotalCompact"></b>
+                    <span data-i18n="balanceSheetTotal">財務總量</span>
+                  </div>
+                </div>
+                <div class="legend" id="assetLegend"></div>
+              </div>
+            </section>
+
+            <section class="panel">
+              <div class="panel-head">
+                <div>
+                  <p class="eyebrow" data-i18n="jarMethod">六個帳戶</p>
+                  <h2 data-i18n="jarPlan">本月配置</h2>
+                </div>
+                <span class="pill" id="jarModePill"></span>
+              </div>
+              <div class="jar-list" id="jarList"></div>
+            </section>
+          </div>
+
+          <section class="panel">
+            <div class="panel-head">
+              <div>
+                <p class="eyebrow" data-i18n="monthlyReport">月報</p>
+                <h2 data-i18n="monthSnapshot">本月摘要</h2>
+              </div>
+            </div>
+            <div class="report-grid" id="monthlyReportGrid"></div>
+          </section>
+
+          <section class="panel">
+            <div class="panel-head">
+              <div>
+                <p class="eyebrow" data-i18n="cashflow">現金流</p>
+                <h2 data-i18n="recentActivity">最近交易</h2>
+              </div>
+              <button class="ghost-button" data-jump="ledger">
+                <span data-icon="plus"></span>
+                <span data-i18n="addTransaction">新增交易</span>
+              </button>
+            </div>
+            <div class="transaction-list compact" id="recentTransactions"></div>
+          </section>
+        </section>
+
+        <section class="view" id="ledgerView" data-view-panel="ledger">
+          <div class="workspace two-col ledger-grid">
+            <section class="panel">
+              <div class="panel-head">
+                <div>
+                  <p class="eyebrow" data-i18n="newRecord">新增紀錄</p>
+                  <h2 data-i18n="transaction">交易</h2>
+                </div>
+              </div>
+              <details class="quick-account" id="quickAccountDetails" open>
+                <summary>
+                  <span data-i18n="quickAddAccount">快速新增帳戶</span>
+                </summary>
+                <form class="form-grid compact-form" id="quickAccountForm">
+                  <label>
+                    <span data-i18n="accountType">帳戶類型</span>
+                    <select name="type" id="quickLiquidType">
+                      <option value="cash" data-i18n="cash">現金</option>
+                      <option value="eWallet" data-i18n="eWallet">電子錢包</option>
+                      <option value="bank" data-i18n="bankAccount">銀行帳戶</option>
+                      <option value="other" data-i18n="other">其他</option>
+                    </select>
+                  </label>
+                  <label data-provider-wrap>
+                    <span data-i18n="provider">品牌/機構</span>
+                    <select name="provider" id="quickWalletProvider" data-wallet-provider></select>
+                    <input name="customProvider" type="text" data-custom-provider hidden>
+                  </label>
+                  <label>
+                    <span data-i18n="name">名稱</span>
+                    <input name="name" type="text">
+                  </label>
+                  <label>
+                    <span data-i18n="balance">餘額</span>
+                    <input name="balance" type="number" min="0" step="1">
+                  </label>
+                  <button class="ghost-button wide" type="submit">
+                    <span data-icon="plus"></span>
+                    <span data-i18n="saveAccount">儲存帳戶</span>
+                  </button>
+                </form>
+              </details>
+              <form class="form-grid" id="transactionForm">
+                <label>
+                  <span data-i18n="type">類型</span>
+                  <select name="type" id="transactionType">
+                    <option value="expense" data-i18n="expense">支出</option>
+                    <option value="income" data-i18n="income">收入</option>
+                    <option value="transfer" data-i18n="transfer">轉帳</option>
+                    <option value="debtPayment" data-i18n="debtPayment">還款</option>
+                  </select>
+                </label>
+                <label>
+                  <span data-i18n="amount">金額</span>
+                  <input name="amount" type="number" min="0" step="1" required>
+                </label>
+                <label>
+                  <span data-i18n="category">分類</span>
+                  <select name="category" id="transactionCategory"></select>
+                </label>
+                <label>
+                  <span data-i18n="account">帳戶</span>
+                  <select name="account" id="transactionAccount"></select>
+                </label>
+                <label id="transferToWrap" hidden>
+                  <span data-i18n="toAccount">轉入帳戶</span>
+                  <select name="toAccount" id="transferToAccount"></select>
+                </label>
+                <p class="fineprint wide" id="transactionAccountHint" data-i18n="selectAccountFirst">請先新增一個帳戶，才能記帳。</p>
+                <label class="wide">
+                  <span data-i18n="note">備註</span>
+                  <input name="note" type="text" data-placeholder-key="notePlaceholder" placeholder="午餐、交通、訂閱...">
+                </label>
+                <button class="submit-button wide" id="transactionSubmit" type="submit">
+                  <span data-icon="plus"></span>
+                  <span data-i18n="saveTransaction">儲存交易</span>
+                </button>
+                <button class="ghost-button wide" id="transactionCancelEdit" type="button" hidden>
+                  <span data-i18n="cancelEdit">取消編輯</span>
+                </button>
+              </form>
+            </section>
+
+            <section class="panel">
+              <div class="panel-head">
+                <div>
+                  <p class="eyebrow" data-i18n="records">紀錄</p>
+                  <h2 data-i18n="allTransactions">全部交易</h2>
+                </div>
+                <select id="transactionFilter" aria-label="Transaction filter">
+                  <option value="all" data-i18n="all">全部</option>
+                  <option value="expense" data-i18n="expense">支出</option>
+                  <option value="income" data-i18n="income">收入</option>
+                  <option value="transfer" data-i18n="transfer">轉帳</option>
+                  <option value="debtPayment" data-i18n="debtPayment">還款</option>
+                </select>
+              </div>
+              <div class="transaction-list" id="transactionList"></div>
+            </section>
+          </div>
+        </section>
+
+        <section class="view" id="assetsView" data-view-panel="assets">
+          <div class="asset-tabs" role="tablist" aria-label="Asset type">
+            <button class="asset-tab active" data-asset-tab="liquid" data-i18n="liquidFunds">流動資金</button>
+            <button class="asset-tab" data-asset-tab="investments" data-i18n="investments">投資</button>
+            <button class="asset-tab" data-asset-tab="fixed" data-i18n="fixedAssets">固定資產</button>
+            <button class="asset-tab" data-asset-tab="receivables" data-i18n="receivables">應收款</button>
+          </div>
+
+          <div class="workspace two-col">
+            <section class="panel">
+              <div class="panel-head">
+                <div>
+                  <p class="eyebrow" id="assetFormEyebrow">Liquid</p>
+                  <h2 id="assetFormTitle"></h2>
+                </div>
+              </div>
+
+              <form class="form-grid asset-form active" id="liquidForm" data-asset-form="liquid">
+                <label>
+                  <span data-i18n="accountType">帳戶類型</span>
+                  <select name="type" id="liquidType">
+                    <option value="cash" data-i18n="cash">現金</option>
+                    <option value="eWallet" data-i18n="eWallet">電子錢包</option>
+                    <option value="bank" data-i18n="bankAccount">銀行帳戶</option>
+                    <option value="other" data-i18n="other">其他</option>
+                  </select>
+                </label>
+                <label data-provider-wrap>
+                  <span data-i18n="provider">品牌/機構</span>
+                  <select name="provider" id="walletProvider" data-wallet-provider></select>
+                  <input name="customProvider" type="text" data-custom-provider hidden>
+                </label>
+                <label>
+                  <span data-i18n="name">名稱</span>
+                  <input name="name" type="text">
+                </label>
+                <label>
+                  <span data-i18n="balance">餘額</span>
+                  <input name="balance" type="number" min="0" step="1">
+                </label>
+                <button class="submit-button wide" type="submit">
+                  <span data-icon="plus"></span>
+                  <span data-i18n="addLiquid">新增流動資金</span>
+                </button>
+              </form>
+
+              <form class="form-grid asset-form" id="investmentForm" data-asset-form="investments">
+                <label>
+                  <span data-i18n="investmentType">投資類型</span>
+                  <select name="type">
+                    <option value="stock" data-i18n="stock">股票</option>
+                    <option value="etf">ETF</option>
+                    <option value="fund" data-i18n="fund">基金</option>
+                    <option value="crypto" data-i18n="crypto">加密貨幣</option>
+                    <option value="metal" data-i18n="metal">貴金屬</option>
+                    <option value="other" data-i18n="other">其他</option>
+                  </select>
+                </label>
+                <label>
+                  <span data-i18n="symbol">代號</span>
+                  <input name="symbol" type="text">
+                </label>
+                <label>
+                  <span data-i18n="quantity">數量</span>
+                  <input name="quantity" type="number" min="0" step="0.0001">
+                </label>
+                <label>
+                  <span data-i18n="purchasePrice">購買價格</span>
+                  <input name="purchasePrice" type="number" min="0" step="0.01">
+                </label>
+                <label>
+                  <span data-i18n="priceCurrency">價格幣別</span>
+                  <select name="currency" id="investmentCurrency"></select>
+                </label>
+                <button class="submit-button wide" type="submit">
+                  <span data-icon="plus"></span>
+                  <span data-i18n="addInvestment">新增投資</span>
+                </button>
+              </form>
+
+              <form class="form-grid asset-form" id="fixedForm" data-asset-form="fixed">
+                <label>
+                  <span data-i18n="assetType">資產類型</span>
+                  <select name="type">
+                    <option value="realEstate" data-i18n="realEstate">房產</option>
+                    <option value="vehicle" data-i18n="vehicle">汽車</option>
+                    <option value="other" data-i18n="other">其他</option>
+                  </select>
+                </label>
+                <label>
+                  <span data-i18n="name">名稱</span>
+                  <input name="name" type="text">
+                </label>
+                <label>
+                  <span data-i18n="purchaseValue">購入價值</span>
+                  <input name="purchaseValue" type="number" min="0" step="1">
+                </label>
+                <label>
+                  <span data-i18n="currentValue">目前估值</span>
+                  <input name="currentValue" type="number" min="0" step="1">
+                </label>
+                <button class="submit-button wide" type="submit">
+                  <span data-icon="plus"></span>
+                  <span data-i18n="addFixed">新增固定資產</span>
+                </button>
+              </form>
+
+              <form class="form-grid asset-form" id="receivableForm" data-asset-form="receivables">
+                <label>
+                  <span data-i18n="person">對象</span>
+                  <input name="person" type="text">
+                </label>
+                <label>
+                  <span data-i18n="amount">金額</span>
+                  <input name="amount" type="number" min="0" step="1">
+                </label>
+                <label>
+                  <span data-i18n="dueDate">到期日</span>
+                  <input name="dueDate" type="date">
+                </label>
+                <label>
+                  <span data-i18n="status">狀態</span>
+                  <select name="status">
+                    <option value="open" data-i18n="open">未收</option>
+                    <option value="partial" data-i18n="partial">部分收</option>
+                    <option value="overdue" data-i18n="overdue">逾期</option>
+                  </select>
+                </label>
+                <button class="submit-button wide" type="submit">
+                  <span data-icon="plus"></span>
+                  <span data-i18n="addReceivable">新增應收款</span>
+                </button>
+              </form>
+            </section>
+
+            <section class="panel">
+              <div class="panel-head">
+                <div>
+                  <p class="eyebrow" data-i18n="portfolioList">清單</p>
+                  <h2 id="assetListTitle"></h2>
+                </div>
+              </div>
+              <div class="asset-list" id="assetList"></div>
+            </section>
+          </div>
+        </section>
+
+        <section class="view" id="liabilitiesView" data-view-panel="liabilities">
+          <div class="workspace two-col">
+            <section class="panel">
+              <div class="panel-head">
+                <div>
+                  <p class="eyebrow" data-i18n="newLiability">新增負債</p>
+                  <h2 data-i18n="liability">負債</h2>
+                </div>
+              </div>
+              <form class="form-grid" id="liabilityForm">
+                <label>
+                  <span data-i18n="liabilityType">負債類型</span>
+                  <select name="type">
+                    <option value="creditCard" data-i18n="creditCard">信用卡</option>
+                    <option value="mortgage" data-i18n="mortgage">房貸</option>
+                    <option value="autoLoan" data-i18n="autoLoan">車貸</option>
+                    <option value="consumerLoan" data-i18n="consumerLoan">消費貸款</option>
+                    <option value="educationLoan" data-i18n="educationLoan">教育貸款</option>
+                    <option value="otherLoan" data-i18n="otherLoan">其他貸款</option>
+                  </select>
+                </label>
+                <label>
+                  <span data-i18n="name">名稱</span>
+                  <input name="name" type="text">
+                </label>
+                <label>
+                  <span data-i18n="balance">餘額</span>
+                  <input name="balance" type="number" min="0" step="1">
+                </label>
+                <label>
+                  <span data-i18n="interestRate">利率</span>
+                  <input name="rate" type="number" min="0" step="0.01">
+                </label>
+                <label>
+                  <span data-i18n="dueDate">到期日</span>
+                  <input name="dueDate" type="date">
+                </label>
+                <label>
+                  <span data-i18n="minimumPayment">最低應繳</span>
+                  <input name="minimumPayment" type="number" min="0" step="1">
+                </label>
+                <button class="submit-button wide" type="submit">
+                  <span data-icon="plus"></span>
+                  <span data-i18n="addLiability">新增負債</span>
+                </button>
+              </form>
+            </section>
+
+            <section class="panel">
+              <div class="panel-head">
+                <div>
+                  <p class="eyebrow" data-i18n="debtPlan">負債管理</p>
+                  <h2 data-i18n="liabilityList">負債清單</h2>
+                </div>
+                <span class="pill danger" id="totalDebtPill"></span>
+              </div>
+              <div class="liability-list" id="liabilityList"></div>
+            </section>
+          </div>
+        </section>
+
+        <section class="view" id="settingsView" data-view-panel="settings">
+          <div class="workspace two-col">
+            <section class="panel">
+              <div class="panel-head">
+                <div>
+                  <p class="eyebrow" data-i18n="preferences">偏好設定</p>
+                  <h2 data-i18n="regionalSettings">地區與語言</h2>
+                </div>
+              </div>
+              <form class="form-grid" id="settingsForm">
+                <label>
+                  <span data-i18n="language">語言</span>
+                  <select name="language" id="languageSelect">
+                    <option value="zh-Hant">繁體中文</option>
+                    <option value="zh-Hans">简体中文</option>
+                    <option value="en">English</option>
+                    <option value="ja">日本語</option>
+                    <option value="es">Español</option>
+                    <option value="fr">Français</option>
+                    <option value="de">Deutsch</option>
+                    <option value="pt-BR">Português</option>
+                    <option value="ko">한국어</option>
+                    <option value="id">Bahasa Indonesia</option>
+                    <option value="th">ไทย</option>
+                    <option value="vi">Tiếng Việt</option>
+                    <option value="hi">हिन्दी</option>
+                    <option value="ar">العربية</option>
+                  </select>
+                </label>
+                <label>
+                  <span data-i18n="country">國家/地區</span>
+                  <select name="country" id="countrySelect">
+                    <option value="TW">台灣</option>
+                    <option value="US">United States</option>
+                    <option value="CA">Canada</option>
+                    <option value="GB">United Kingdom</option>
+                    <option value="AU">Australia</option>
+                    <option value="DE">Deutschland</option>
+                    <option value="FR">France</option>
+                    <option value="ES">España</option>
+                    <option value="IT">Italia</option>
+                    <option value="BR">Brasil</option>
+                    <option value="MX">México</option>
+                    <option value="CN">中国大陆</option>
+                    <option value="HK">香港</option>
+                    <option value="SG">Singapore</option>
+                    <option value="JP">日本</option>
+                    <option value="KR">대한민국</option>
+                    <option value="IN">India</option>
+                    <option value="ID">Indonesia</option>
+                    <option value="TH">ประเทศไทย</option>
+                    <option value="VN">Việt Nam</option>
+                    <option value="AE">الإمارات</option>
+                  </select>
+                </label>
+                <label>
+                  <span data-i18n="currency">幣別</span>
+                  <select name="currency" id="currencySelect">
+                    <option value="TWD">TWD</option>
+                    <option value="USD">USD</option>
+                    <option value="CNY">CNY</option>
+                    <option value="HKD">HKD</option>
+                    <option value="SGD">SGD</option>
+                    <option value="JPY">JPY</option>
+                    <option value="EUR">EUR</option>
+                    <option value="GBP">GBP</option>
+                    <option value="CAD">CAD</option>
+                    <option value="AUD">AUD</option>
+                    <option value="BRL">BRL</option>
+                    <option value="MXN">MXN</option>
+                    <option value="KRW">KRW</option>
+                    <option value="INR">INR</option>
+                    <option value="IDR">IDR</option>
+                    <option value="THB">THB</option>
+                    <option value="VND">VND</option>
+                    <option value="AED">AED</option>
+                  </select>
+                </label>
+                <label>
+                  <span data-i18n="monthlyIncomeInput">月收入</span>
+                  <input name="monthlyIncome" id="monthlyIncomeInput" type="number" min="0" step="1">
+                </label>
+                <label class="wide switch-row">
+                  <span data-i18n="debtPriorityMode">還債優先模式</span>
+                  <input id="debtPriorityToggle" name="debtPriority" type="checkbox">
+                </label>
+                <p class="fineprint wide" id="debtPriorityHint" data-i18n="noDebtPriorityHint">沒有負債時不會啟用還債帳戶。</p>
+                <div class="wide sacrifice-panel" id="debtSacrificePanel">
+                  <div class="field-title" data-i18n="debtSacrificeSources">還債來源</div>
+                  <div class="sacrifice-grid">
+                    <label>
+                      <input type="checkbox" name="debtSacrificeAccounts" value="play" checked>
+                      <span data-i18n="play">玩樂帳戶</span>
+                    </label>
+                    <label>
+                      <input type="checkbox" name="debtSacrificeAccounts" value="giving" checked>
+                      <span data-i18n="giving">人情回饋帳戶</span>
+                    </label>
+                    <label>
+                      <input type="checkbox" name="debtSacrificeAccounts" value="education" checked>
+                      <span data-i18n="education">教育成長帳戶</span>
+                    </label>
+                    <label>
+                      <input type="checkbox" name="debtSacrificeAccounts" value="longTermSavings" checked>
+                      <span data-i18n="longTermSavings">長期儲蓄帳戶</span>
+                    </label>
+                    <label>
+                      <input type="checkbox" name="debtSacrificeAccounts" value="financialFreedom">
+                      <span data-i18n="financialFreedom">財務自由帳戶</span>
+                    </label>
+                  </div>
+                  <p class="fineprint" data-i18n="debtSacrificeHint">啟用還債優先後，系統會先從勾選的帳戶挪出比例給還款帳戶；必要帳戶不會被犧牲。</p>
+                </div>
+                <button class="submit-button wide" type="submit">
+                  <span data-icon="save"></span>
+                  <span data-i18n="saveSettings">儲存設定</span>
+                </button>
+              </form>
+            </section>
+
+            <section class="panel">
+              <div class="panel-head">
+                <div>
+                  <p class="eyebrow" data-i18n="jarMethod">六個帳戶</p>
+                  <h2 data-i18n="recommendedSplit">建議配置</h2>
+                </div>
+              </div>
+              <div class="jar-list settings-jars" id="settingsJarList"></div>
+              <p class="fineprint" id="incomePowerHint"></p>
+              <p class="fineprint" data-i18n="educationOnly">配置僅供教育與預算規劃參考，不構成投資、稅務或貸款建議。</p>
+            </section>
+          </div>
+        </section>
+      </main>
+
+      <nav class="bottom-nav" aria-label="Mobile primary">
+        <button class="bottom-item active" data-target="overview"><span data-icon="dashboard"></span><b data-i18n="navOverview">總覽</b></button>
+        <button class="bottom-item" data-target="ledger"><span data-icon="ledger"></span><b data-i18n="navLedger">記帳</b></button>
+        <button class="bottom-item" data-target="assets"><span data-icon="assets"></span><b data-i18n="navAssets">資產</b></button>
+        <button class="bottom-item" data-target="liabilities"><span data-icon="liabilities"></span><b data-i18n="navLiabilities">負債</b></button>
+        <button class="bottom-item" data-target="settings"><span data-icon="settings"></span><b data-i18n="navSettings">設定</b></button>
+      </nav>
+    </div>
+
+    <div class="toast" id="toast" aria-live="polite"></div>
+
+    <script src="./app.js"></script>
+    <script>
+      if ("serviceWorker" in navigator && location.protocol !== "file:") {
+        window.addEventListener("load", () => {
+          navigator.serviceWorker.register("./service-worker.js").catch(() => {});
+        });
+      }
+    </script>
+  </body>
+</html>
