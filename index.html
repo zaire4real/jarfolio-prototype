@@ -12,7 +12,7 @@
     <link rel="manifest" href="./manifest.webmanifest">
     <link rel="icon" href="./icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="./icon.svg">
-    <link rel="stylesheet" href="./styles.css">
+    <link rel="stylesheet" href="./styles.css?v=20260628-2">
   </head>
   <body>
     <div class="onboarding-overlay" id="onboardingOverlay" hidden>
@@ -26,20 +26,33 @@
           <strong>Jarfolio</strong>
         </div>
         <p class="eyebrow" id="onboardingEyebrow">首次設定</p>
+        <div class="onboarding-progress" aria-hidden="true">
+          <span class="active" id="onboardingProgressLanguage"><b>1</b><span id="onboardingProgressLanguageText">語言</span></span>
+          <i></i>
+          <span id="onboardingProgressCountry"><b>2</b><span id="onboardingProgressCountryText">國家/地區</span></span>
+        </div>
         <h1 id="onboardingTitle">歡迎使用 Jarfolio</h1>
-        <p class="onboarding-intro" id="onboardingIntro">先選擇語言與地區，我們會設定合適的幣別與顯示方式。</p>
+        <p class="onboarding-intro" id="onboardingIntro">先選擇你想使用的語言。</p>
         <form class="onboarding-form" id="onboardingForm">
-          <label>
-            <span id="onboardingLanguageLabel">語言</span>
-            <select name="language" id="onboardingLanguage"></select>
-          </label>
-          <label>
-            <span id="onboardingCountryLabel">國家/地區</span>
-            <select name="country" id="onboardingCountry"></select>
-          </label>
-          <button class="submit-button onboarding-submit" type="submit">
-            <span id="onboardingContinue">開始使用</span>
-          </button>
+          <div class="onboarding-step" id="onboardingLanguageStep">
+            <label>
+              <span id="onboardingLanguageLabel">語言</span>
+              <select name="language" id="onboardingLanguage"></select>
+            </label>
+            <button class="submit-button onboarding-submit" id="onboardingNext" type="button">下一步</button>
+          </div>
+          <div class="onboarding-step" id="onboardingCountryStep" hidden>
+            <label>
+              <span id="onboardingCountryLabel">國家/地區</span>
+              <select name="country" id="onboardingCountry"></select>
+            </label>
+            <div class="onboarding-actions">
+              <button class="ghost-button" id="onboardingBack" type="button">返回</button>
+              <button class="submit-button onboarding-submit" type="submit">
+                <span id="onboardingContinue">開始使用</span>
+              </button>
+            </div>
+          </div>
         </form>
       </section>
     </div>
@@ -661,7 +674,7 @@
 
     <div class="toast" id="toast" aria-live="polite"></div>
 
-    <script src="./app.js?v=20260628-1"></script>
+    <script src="./app.js?v=20260628-2"></script>
     <script>
       if ("serviceWorker" in navigator && location.protocol !== "file:") {
         window.addEventListener("load", () => {
