@@ -983,85 +983,141 @@ const onboardingMessages = {
   "zh-Hant": {
     eyebrow: "首次設定",
     title: "歡迎使用 Jarfolio",
-    intro: "先選擇語言與地區，我們會設定合適的幣別與顯示方式。",
+    intro: "先選擇你想使用的語言。",
+    regionTitle: "選擇你的地區",
+    regionIntro: "我們會依照地區設定預設幣別與顯示方式。",
+    next: "下一步",
+    back: "返回",
     continue: "開始使用"
   },
   "zh-Hans": {
     eyebrow: "首次设置",
     title: "欢迎使用 Jarfolio",
-    intro: "请先选择语言和地区，我们会设置合适的币种与显示方式。",
+    intro: "请先选择你想使用的语言。",
+    regionTitle: "选择你的地区",
+    regionIntro: "我们会根据地区设置默认币种与显示方式。",
+    next: "下一步",
+    back: "返回",
     continue: "开始使用"
   },
   en: {
     eyebrow: "FIRST SETUP",
     title: "Welcome to Jarfolio",
-    intro: "Choose your language and region to set the right currency and display format.",
+    intro: "Choose the language you would like to use.",
+    regionTitle: "Choose your region",
+    regionIntro: "We will use it to set your default currency and display format.",
+    next: "Next",
+    back: "Back",
     continue: "Get started"
   },
   ja: {
     eyebrow: "初期設定",
     title: "Jarfolioへようこそ",
-    intro: "言語と地域を選択すると、通貨と表示形式が自動で設定されます。",
+    intro: "使用する言語を選択してください。",
+    regionTitle: "地域を選択",
+    regionIntro: "地域に合わせて通貨と表示形式を設定します。",
+    next: "次へ",
+    back: "戻る",
     continue: "はじめる"
   },
   es: {
     eyebrow: "CONFIGURACIÓN INICIAL",
     title: "Te damos la bienvenida a Jarfolio",
-    intro: "Elige tu idioma y región para configurar la moneda y el formato adecuados.",
+    intro: "Elige el idioma que quieres utilizar.",
+    regionTitle: "Elige tu región",
+    regionIntro: "Usaremos la región para configurar la moneda y el formato.",
+    next: "Siguiente",
+    back: "Atrás",
     continue: "Comenzar"
   },
   fr: {
     eyebrow: "PREMIÈRE CONFIGURATION",
     title: "Bienvenue dans Jarfolio",
-    intro: "Choisissez votre langue et votre région pour définir la devise et le format adaptés.",
+    intro: "Choisissez la langue que vous souhaitez utiliser.",
+    regionTitle: "Choisissez votre région",
+    regionIntro: "Nous définirons la devise et le format selon votre région.",
+    next: "Suivant",
+    back: "Retour",
     continue: "Commencer"
   },
   de: {
     eyebrow: "ERSTE EINRICHTUNG",
     title: "Willkommen bei Jarfolio",
-    intro: "Wähle Sprache und Region, um Währung und Anzeigeformat festzulegen.",
+    intro: "Wähle die Sprache, die du verwenden möchtest.",
+    regionTitle: "Wähle deine Region",
+    regionIntro: "Damit legen wir Währung und Anzeigeformat fest.",
+    next: "Weiter",
+    back: "Zurück",
     continue: "Loslegen"
   },
   "pt-BR": {
     eyebrow: "CONFIGURAÇÃO INICIAL",
     title: "Boas-vindas ao Jarfolio",
-    intro: "Escolha seu idioma e região para definir a moeda e o formato corretos.",
+    intro: "Escolha o idioma que você quer usar.",
+    regionTitle: "Escolha sua região",
+    regionIntro: "Usaremos a região para definir a moeda e o formato.",
+    next: "Próximo",
+    back: "Voltar",
     continue: "Começar"
   },
   ko: {
     eyebrow: "첫 설정",
     title: "Jarfolio에 오신 것을 환영합니다",
-    intro: "언어와 지역을 선택하면 알맞은 통화와 표시 형식이 설정됩니다.",
+    intro: "사용할 언어를 선택하세요.",
+    regionTitle: "지역 선택",
+    regionIntro: "지역에 맞춰 기본 통화와 표시 형식을 설정합니다.",
+    next: "다음",
+    back: "뒤로",
     continue: "시작하기"
   },
   id: {
     eyebrow: "PENGATURAN AWAL",
     title: "Selamat datang di Jarfolio",
-    intro: "Pilih bahasa dan wilayah untuk mengatur mata uang serta format tampilan.",
+    intro: "Pilih bahasa yang ingin digunakan.",
+    regionTitle: "Pilih wilayah",
+    regionIntro: "Wilayah digunakan untuk mengatur mata uang dan format tampilan.",
+    next: "Berikutnya",
+    back: "Kembali",
     continue: "Mulai"
   },
   th: {
     eyebrow: "ตั้งค่าครั้งแรก",
     title: "ยินดีต้อนรับสู่ Jarfolio",
-    intro: "เลือกภาษาและภูมิภาคเพื่อกำหนดสกุลเงินและรูปแบบการแสดงผลที่เหมาะสม",
+    intro: "เลือกภาษาที่คุณต้องการใช้",
+    regionTitle: "เลือกภูมิภาคของคุณ",
+    regionIntro: "เราจะใช้ภูมิภาคเพื่อตั้งค่าสกุลเงินและรูปแบบการแสดงผล",
+    next: "ถัดไป",
+    back: "ย้อนกลับ",
     continue: "เริ่มใช้งาน"
   },
   vi: {
     eyebrow: "THIẾT LẬP BAN ĐẦU",
     title: "Chào mừng đến với Jarfolio",
-    intro: "Chọn ngôn ngữ và khu vực để thiết lập tiền tệ cùng định dạng phù hợp.",
+    intro: "Chọn ngôn ngữ bạn muốn sử dụng.",
+    regionTitle: "Chọn khu vực của bạn",
+    regionIntro: "Khu vực sẽ được dùng để đặt tiền tệ và định dạng hiển thị.",
+    next: "Tiếp theo",
+    back: "Quay lại",
     continue: "Bắt đầu"
   },
   hi: {
     eyebrow: "पहली बार सेटअप",
     title: "Jarfolio में आपका स्वागत है",
-    intro: "सही मुद्रा और प्रदर्शन प्रारूप के लिए अपनी भाषा और क्षेत्र चुनें।",
+    intro: "वह भाषा चुनें जिसका आप उपयोग करना चाहते हैं।",
+    regionTitle: "अपना क्षेत्र चुनें",
+    regionIntro: "क्षेत्र के आधार पर मुद्रा और प्रदर्शन प्रारूप सेट होगा।",
+    next: "अगला",
+    back: "वापस",
     continue: "शुरू करें"
   },
   ar: {
     eyebrow: "الإعداد الأول",
     title: "مرحبًا بك في Jarfolio",
-    intro: "اختر اللغة والمنطقة لضبط العملة وتنسيق العرض المناسبين.",
+    intro: "اختر اللغة التي تريد استخدامها.",
+    regionTitle: "اختر منطقتك",
+    regionIntro: "سنستخدم المنطقة لضبط العملة الافتراضية وتنسيق العرض.",
+    next: "التالي",
+    back: "رجوع",
     continue: "ابدأ"
   }
 };
@@ -1285,6 +1341,7 @@ const defaultState = {
 
 let state = loadState();
 let editingTransactionId = null;
+let onboardingStep = "language";
 
 function nextDate(days) {
   return isoDate(days);
@@ -2154,12 +2211,28 @@ function updateOnboardingLanguage(language) {
   overlay.lang = language;
   overlay.dir = language === "ar" ? "rtl" : "ltr";
   document.getElementById("onboardingEyebrow").textContent = messages.eyebrow;
-  document.getElementById("onboardingTitle").textContent = messages.title;
-  document.getElementById("onboardingIntro").textContent = messages.intro;
+  const isRegionStep = onboardingStep === "region";
+  document.getElementById("onboardingTitle").textContent = isRegionStep ? messages.regionTitle : messages.title;
+  document.getElementById("onboardingIntro").textContent = isRegionStep ? messages.regionIntro : messages.intro;
+  document.getElementById("onboardingNext").textContent = messages.next;
+  document.getElementById("onboardingBack").textContent = messages.back;
   document.getElementById("onboardingContinue").textContent = messages.continue;
   document.getElementById("onboardingLanguageLabel").textContent = copy[language]?.language || copy.en.language;
   document.getElementById("onboardingCountryLabel").textContent = copy[language]?.country || copy.en.country;
+  document.getElementById("onboardingProgressLanguageText").textContent = copy[language]?.language || copy.en.language;
+  document.getElementById("onboardingProgressCountryText").textContent = copy[language]?.country || copy.en.country;
   updateCountryOptionLabels(language);
+}
+
+function setOnboardingStep(step) {
+  onboardingStep = step;
+  const isRegionStep = step === "region";
+  document.getElementById("onboardingLanguageStep").hidden = isRegionStep;
+  document.getElementById("onboardingCountryStep").hidden = !isRegionStep;
+  document.getElementById("onboardingProgressLanguage").classList.toggle("complete", isRegionStep);
+  document.getElementById("onboardingProgressLanguage").classList.toggle("active", !isRegionStep);
+  document.getElementById("onboardingProgressCountry").classList.toggle("active", isRegionStep);
+  updateOnboardingLanguage(document.getElementById("onboardingLanguage").value || state.language);
 }
 
 function renderOnboarding() {
@@ -2172,7 +2245,7 @@ function renderOnboarding() {
   populateOnboardingOptions();
   document.getElementById("onboardingLanguage").value = state.language;
   document.getElementById("onboardingCountry").value = state.country;
-  updateOnboardingLanguage(state.language);
+  setOnboardingStep("language");
   overlay.hidden = false;
   document.body.classList.add("onboarding-open");
 }
@@ -2288,8 +2361,20 @@ function bindEvents() {
     updateOnboardingLanguage(event.target.value);
   });
 
+  document.getElementById("onboardingNext").addEventListener("click", () => {
+    setOnboardingStep("region");
+  });
+
+  document.getElementById("onboardingBack").addEventListener("click", () => {
+    setOnboardingStep("language");
+  });
+
   document.getElementById("onboardingForm").addEventListener("submit", (event) => {
     event.preventDefault();
+    if (onboardingStep !== "region") {
+      setOnboardingStep("region");
+      return;
+    }
     const form = new FormData(event.currentTarget);
     state.language = form.get("language");
     state.country = form.get("country");
