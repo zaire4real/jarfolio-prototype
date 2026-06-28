@@ -1,4 +1,4 @@
-const cacheName = "jarfolio-v0.1.0";
+const cacheName = "jarfolio-v0.2.0";
 const appShell = [
   "./",
   "./index.html",
