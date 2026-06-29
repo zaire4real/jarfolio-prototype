@@ -127,6 +127,20 @@ const copy = {
     country: "國家/地區",
     currency: "幣別",
     monthlyIncomeInput: "月收入",
+    support: "支援",
+    reportIssue: "問題回報",
+    supportIntro: "告訴我們遇到的問題或建議，送出後會開啟你的郵件程式供你確認。",
+    issueCategory: "問題類型",
+    issueBug: "功能異常",
+    issueSuggestion: "功能建議",
+    issueAccount: "帳戶與資料",
+    issueOther: "其他",
+    contactEmail: "聯絡信箱（選填）",
+    issueDescription: "問題描述",
+    issueDescriptionPlaceholder: "請描述發生什麼事，以及你原本預期的結果",
+    supportPrivacy: "郵件只會附上 App 版本、語言與裝置資訊，不會包含任何財務資料。",
+    openEmailApp: "開啟郵件程式",
+    issueEmailSubject: "問題回報",
     debtPriorityMode: "還債優先模式",
     debtSacrificeSources: "還債來源",
     debtSacrificeHint: "啟用還債優先後，系統會先從勾選的帳戶挪出比例給還款帳戶；必要帳戶不會被犧牲。",
@@ -287,6 +301,20 @@ const copy = {
     country: "国家/地区",
     currency: "币别",
     monthlyIncomeInput: "月收入",
+    support: "支持",
+    reportIssue: "问题反馈",
+    supportIntro: "告诉我们遇到的问题或建议，提交后会打开你的邮件应用供你确认。",
+    issueCategory: "问题类型",
+    issueBug: "功能异常",
+    issueSuggestion: "功能建议",
+    issueAccount: "账户与数据",
+    issueOther: "其他",
+    contactEmail: "联系邮箱（选填）",
+    issueDescription: "问题描述",
+    issueDescriptionPlaceholder: "请描述发生了什么，以及你原本预期的结果",
+    supportPrivacy: "邮件只会附上 App 版本、语言和设备信息，不会包含任何财务数据。",
+    openEmailApp: "打开邮件应用",
+    issueEmailSubject: "问题反馈",
     debtPriorityMode: "还债优先模式",
     debtSacrificeSources: "还债来源",
     debtSacrificeHint: "启用还债优先后，系统会先从勾选的账户挪出比例给还款账户；必要账户不会被牺牲。",
@@ -447,6 +475,20 @@ const copy = {
     country: "Country / region",
     currency: "Currency",
     monthlyIncomeInput: "Monthly income",
+    support: "Support",
+    reportIssue: "Report a problem",
+    supportIntro: "Tell us about a problem or suggestion. Your email app will open so you can review it before sending.",
+    issueCategory: "Issue type",
+    issueBug: "Something is not working",
+    issueSuggestion: "Feature suggestion",
+    issueAccount: "Accounts and data",
+    issueOther: "Other",
+    contactEmail: "Contact email (optional)",
+    issueDescription: "Description",
+    issueDescriptionPlaceholder: "Describe what happened and what you expected",
+    supportPrivacy: "The email includes only the app version, language, and device details. No financial data is included.",
+    openEmailApp: "Open email app",
+    issueEmailSubject: "Problem report",
     debtPriorityMode: "Debt priority mode",
     debtSacrificeSources: "Debt funding sources",
     debtSacrificeHint: "When debt priority is on, the app reallocates from selected accounts into debt payoff. Necessities are protected.",
@@ -607,6 +649,20 @@ const copy = {
     country: "国/地域",
     currency: "通貨",
     monthlyIncomeInput: "月収",
+    support: "サポート",
+    reportIssue: "問題を報告",
+    supportIntro: "問題やご意見をお知らせください。送信前に確認できるようメールアプリを開きます。",
+    issueCategory: "問題の種類",
+    issueBug: "機能の不具合",
+    issueSuggestion: "機能の提案",
+    issueAccount: "口座とデータ",
+    issueOther: "その他",
+    contactEmail: "連絡先メール（任意）",
+    issueDescription: "問題の説明",
+    issueDescriptionPlaceholder: "発生したことと期待していた結果を入力してください",
+    supportPrivacy: "メールにはアプリのバージョン、言語、端末情報のみが含まれ、財務データは含まれません。",
+    openEmailApp: "メールアプリを開く",
+    issueEmailSubject: "問題報告",
     debtPriorityMode: "返済優先モード",
     debtSacrificeSources: "返済に回す口座",
     debtSacrificeHint: "返済優先を有効にすると、選択した口座から返済口座へ配分を移します。必要口座は守られます。",
@@ -1294,6 +1350,8 @@ const countryCostBand = {
 
 const assetColors = ["#176f66", "#bd7b12", "#d95d47", "#4759a6", "#b24766"];
 const storageKey = "jarfolio-prototype-state-empty-v1";
+const appVersion = "0.4.0";
+const supportEmail = "easymoneysniperLin@outlook.com";
 const debtSacrificeOrder = ["play", "giving", "education", "longTermSavings", "financialFreedom"];
 const defaultDebtSacrificeAccounts = ["play", "giving", "education", "longTermSavings"];
 const supportedLanguages = ["zh-Hant", "zh-Hans", "en", "ja", "es", "fr", "de", "pt-BR", "ko", "id", "th", "vi", "hi", "ar"];
@@ -2610,6 +2668,32 @@ function bindEvents() {
     saveState();
     render();
     toast(t("saved"));
+  });
+
+  document.getElementById("supportForm").addEventListener("submit", (event) => {
+    event.preventDefault();
+    const form = new FormData(event.currentTarget);
+    const categoryKey = {
+      bug: "issueBug",
+      suggestion: "issueSuggestion",
+      account: "issueAccount",
+      other: "issueOther"
+    }[form.get("category")] || "issueOther";
+    const subject = `[Jarfolio ${appVersion}] ${t("issueEmailSubject")} - ${t(categoryKey)}`;
+    const details = [
+      `${t("issueCategory")}: ${t(categoryKey)}`,
+      `${t("issueDescription")}:\n${String(form.get("description") || "").trim()}`,
+      `${t("contactEmail")}: ${String(form.get("contactEmail") || "-").trim() || "-"}`,
+      "",
+      "---",
+      `App: Jarfolio ${appVersion}`,
+      `Language: ${state.language}`,
+      `Region: ${state.country}`,
+      `Device: ${navigator.platform || "Unknown"}`,
+      `Browser: ${navigator.userAgent}`,
+      "Financial data included: No"
+    ].join("\n");
+    window.location.href = `mailto:${supportEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(details)}`;
   });
 
   document.getElementById("countrySelect").addEventListener("change", (event) => {
