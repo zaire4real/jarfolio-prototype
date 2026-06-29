@@ -12,7 +12,7 @@
     <link rel="manifest" href="./manifest.webmanifest">
     <link rel="icon" href="./icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="./icon.svg">
-    <link rel="stylesheet" href="./styles.css?v=20260628-2">
+    <link rel="stylesheet" href="./styles.css?v=20260629-2">
   </head>
   <body>
     <div class="onboarding-overlay" id="onboardingOverlay" hidden>
@@ -659,6 +659,40 @@
               <p class="fineprint" id="incomePowerHint"></p>
               <p class="fineprint" data-i18n="educationOnly">配置僅供教育與預算規劃參考，不構成投資、稅務或貸款建議。</p>
             </section>
+
+            <section class="panel support-panel">
+              <div class="panel-head">
+                <div>
+                  <p class="eyebrow" data-i18n="support">支援</p>
+                  <h2 data-i18n="reportIssue">問題回報</h2>
+                </div>
+                <a class="support-address" href="mailto:easymoneysniperLin@outlook.com">easymoneysniperLin@outlook.com</a>
+              </div>
+              <p class="support-intro" data-i18n="supportIntro">告訴我們遇到的問題或建議，送出後會開啟你的郵件程式供你確認。</p>
+              <form class="form-grid support-form" id="supportForm">
+                <label>
+                  <span data-i18n="issueCategory">問題類型</span>
+                  <select name="category">
+                    <option value="bug" data-i18n="issueBug">功能異常</option>
+                    <option value="suggestion" data-i18n="issueSuggestion">功能建議</option>
+                    <option value="account" data-i18n="issueAccount">帳戶與資料</option>
+                    <option value="other" data-i18n="issueOther">其他</option>
+                  </select>
+                </label>
+                <label>
+                  <span data-i18n="contactEmail">聯絡信箱（選填）</span>
+                  <input name="contactEmail" type="email" autocomplete="email">
+                </label>
+                <label class="wide">
+                  <span data-i18n="issueDescription">問題描述</span>
+                  <textarea name="description" rows="5" required data-placeholder-key="issueDescriptionPlaceholder" placeholder="請描述發生什麼事，以及你原本預期的結果"></textarea>
+                </label>
+                <p class="fineprint wide" data-i18n="supportPrivacy">郵件只會附上 App 版本、語言與裝置資訊，不會包含任何財務資料。</p>
+                <button class="submit-button wide" type="submit">
+                  <span data-i18n="openEmailApp">開啟郵件程式</span>
+                </button>
+              </form>
+            </section>
           </div>
         </section>
       </main>
@@ -674,7 +708,7 @@
 
     <div class="toast" id="toast" aria-live="polite"></div>
 
-    <script src="./app.js?v=20260629-1"></script>
+    <script src="./app.js?v=20260629-2"></script>
     <script>
       if ("serviceWorker" in navigator && location.protocol !== "file:") {
         window.addEventListener("load", () => {
