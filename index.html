@@ -12,7 +12,7 @@
     <link rel="manifest" href="./manifest.webmanifest">
     <link rel="icon" href="./icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="./icon.svg">
-    <link rel="stylesheet" href="./styles.css?v=20260629-2">
+    <link rel="stylesheet" href="./styles.css?v=20260629-3">
   </head>
   <body>
     <div class="onboarding-overlay" id="onboardingOverlay" hidden>
@@ -688,9 +688,13 @@
                   <textarea name="description" rows="5" required data-placeholder-key="issueDescriptionPlaceholder" placeholder="請描述發生什麼事，以及你原本預期的結果"></textarea>
                 </label>
                 <p class="fineprint wide" data-i18n="supportPrivacy">郵件只會附上 App 版本、語言與裝置資訊，不會包含任何財務資料。</p>
-                <button class="submit-button wide" type="submit">
-                  <span data-i18n="openEmailApp">開啟郵件程式</span>
-                </button>
+                <div class="support-actions wide">
+                  <button class="submit-button" type="submit">
+                    <span data-i18n="openEmailApp">使用 Outlook 網頁版</span>
+                  </button>
+                  <a class="ghost-button" id="supportMailApp" href="mailto:easymoneysniperLin@outlook.com" data-i18n="useMailApp">使用電腦郵件程式</a>
+                  <button class="ghost-button" id="copySupportReport" type="button" data-i18n="copyReport">複製回報內容</button>
+                </div>
               </form>
             </section>
           </div>
@@ -708,7 +712,7 @@
 
     <div class="toast" id="toast" aria-live="polite"></div>
 
-    <script src="./app.js?v=20260629-2"></script>
+    <script src="./app.js?v=20260629-3"></script>
     <script>
       if ("serviceWorker" in navigator && location.protocol !== "file:") {
         window.addEventListener("load", () => {
