@@ -139,7 +139,10 @@ const copy = {
     issueDescription: "問題描述",
     issueDescriptionPlaceholder: "請描述發生什麼事，以及你原本預期的結果",
     supportPrivacy: "郵件只會附上 App 版本、語言與裝置資訊，不會包含任何財務資料。",
-    openEmailApp: "開啟郵件程式",
+    openEmailApp: "使用 Outlook 網頁版",
+    useMailApp: "使用電腦郵件程式",
+    copyReport: "複製回報內容",
+    reportCopied: "回報內容已複製",
     issueEmailSubject: "問題回報",
     debtPriorityMode: "還債優先模式",
     debtSacrificeSources: "還債來源",
@@ -313,7 +316,10 @@ const copy = {
     issueDescription: "问题描述",
     issueDescriptionPlaceholder: "请描述发生了什么，以及你原本预期的结果",
     supportPrivacy: "邮件只会附上 App 版本、语言和设备信息，不会包含任何财务数据。",
-    openEmailApp: "打开邮件应用",
+    openEmailApp: "使用 Outlook 网页版",
+    useMailApp: "使用电脑邮件应用",
+    copyReport: "复制反馈内容",
+    reportCopied: "反馈内容已复制",
     issueEmailSubject: "问题反馈",
     debtPriorityMode: "还债优先模式",
     debtSacrificeSources: "还债来源",
@@ -487,7 +493,10 @@ const copy = {
     issueDescription: "Description",
     issueDescriptionPlaceholder: "Describe what happened and what you expected",
     supportPrivacy: "The email includes only the app version, language, and device details. No financial data is included.",
-    openEmailApp: "Open email app",
+    openEmailApp: "Use Outlook on the web",
+    useMailApp: "Use desktop mail app",
+    copyReport: "Copy report",
+    reportCopied: "Report copied",
     issueEmailSubject: "Problem report",
     debtPriorityMode: "Debt priority mode",
     debtSacrificeSources: "Debt funding sources",
@@ -661,7 +670,10 @@ const copy = {
     issueDescription: "問題の説明",
     issueDescriptionPlaceholder: "発生したことと期待していた結果を入力してください",
     supportPrivacy: "メールにはアプリのバージョン、言語、端末情報のみが含まれ、財務データは含まれません。",
-    openEmailApp: "メールアプリを開く",
+    openEmailApp: "Outlook Web を使用",
+    useMailApp: "メールアプリを使用",
+    copyReport: "報告内容をコピー",
+    reportCopied: "報告内容をコピーしました",
     issueEmailSubject: "問題報告",
     debtPriorityMode: "返済優先モード",
     debtSacrificeSources: "返済に回す口座",
@@ -2670,9 +2682,8 @@ function bindEvents() {
     toast(t("saved"));
   });
 
-  document.getElementById("supportForm").addEventListener("submit", (event) => {
-    event.preventDefault();
-    const form = new FormData(event.currentTarget);
+  function buildSupportReport(formElement) {
+    const form = new FormData(formElement);
     const categoryKey = {
       bug: "issueBug",
       suggestion: "issueSuggestion",
@@ -2693,7 +2704,48 @@ function bindEvents() {
       `Browser: ${navigator.userAgent}`,
       "Financial data included: No"
     ].join("\n");
-    window.location.href = `mailto:${supportEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(details)}`;
+    return {
+      subject,
+      details,
+      mailto: `mailto:${supportEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(details)}`
+    };
+  }
+
+  document.getElementById("supportForm").addEventListener("submit", (event) => {
+    event.preventDefault();
+    const report = buildSupportReport(event.currentTarget);
+    const composeUrl = new URL("https://outlook.live.com/mail/0/deeplink/compose");
+    composeUrl.searchParams.set("to", supportEmail);
+    composeUrl.searchParams.set("subject", report.subject);
+    composeUrl.searchParams.set("body", report.details);
+    const composeWindow = window.open(composeUrl.toString(), "_blank");
+    if (composeWindow) {
+      composeWindow.opener = null;
+    } else {
+      window.location.assign(composeUrl.toString());
+    }
+  });
+
+  document.getElementById("supportMailApp").addEventListener("click", (event) => {
+    const form = document.getElementById("supportForm");
+    if (!form.reportValidity()) {
+      event.preventDefault();
+      return;
+    }
+    event.currentTarget.href = buildSupportReport(form).mailto;
+  });
+
+  document.getElementById("copySupportReport").addEventListener("click", async () => {
+    const form = document.getElementById("supportForm");
+    if (!form.reportValidity()) return;
+    const report = buildSupportReport(form);
+    const copyText = `${supportEmail}\n${report.subject}\n\n${report.details}`;
+    try {
+      await navigator.clipboard.writeText(copyText);
+      toast(t("reportCopied"));
+    } catch {
+      toast(supportEmail);
+    }
   });
 
   document.getElementById("countrySelect").addEventListener("change", (event) => {
