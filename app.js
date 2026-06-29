@@ -2382,6 +2382,12 @@ function bindEvents() {
     state.onboardingComplete = true;
     saveState();
     render();
+    renderNavigation("settings");
+    window.requestAnimationFrame(() => {
+      const incomeInput = document.getElementById("monthlyIncomeInput");
+      incomeInput.scrollIntoView({ behavior: "smooth", block: "center" });
+      incomeInput.focus();
+    });
   });
 
   document.querySelectorAll("[data-target]").forEach((button) => {
