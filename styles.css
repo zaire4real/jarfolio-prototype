@@ -905,6 +905,23 @@ label {
   overflow-wrap: anywhere;
 }
 
+.support-actions {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.support-actions .submit-button,
+.support-actions .ghost-button {
+  width: 100%;
+  min-height: 46px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  text-decoration: none;
+}
+
 .asset-tabs {
   display: flex;
   gap: 8px;
@@ -1148,6 +1165,10 @@ label {
 
   .onboarding-actions {
     grid-template-columns: 1fr 1.3fr;
+  }
+
+  .support-actions {
+    grid-template-columns: 1fr;
   }
 
   .topbar-actions {
