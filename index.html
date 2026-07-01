@@ -526,6 +526,7 @@
                   <span data-i18n="liabilityType">負債類型</span>
                   <select name="type">
                     <option value="creditCard" data-i18n="creditCard">信用卡</option>
+                    <option value="revolvingCredit" data-i18n="revolvingCredit">循環信貸</option>
                     <option value="mortgage" data-i18n="mortgage">房貸</option>
                     <option value="autoLoan" data-i18n="autoLoan">車貸</option>
                     <option value="consumerLoan" data-i18n="consumerLoan">消費貸款</option>
@@ -545,9 +546,9 @@
                   <span data-i18n="interestRate">利率</span>
                   <input name="rate" type="number" min="0" step="0.01">
                 </label>
-                <label>
+                <label id="liabilityDueDateField">
                   <span data-i18n="dueDate">到期日</span>
-                  <input name="dueDate" type="date">
+                  <input name="dueDate" id="liabilityDueDate" type="date">
                 </label>
                 <label>
                   <span data-i18n="minimumPayment">最低應繳</span>
@@ -793,7 +794,7 @@
 
     <div class="toast" id="toast" aria-live="polite"></div>
 
-    <script src="./app.js?v=20260701-2"></script>
+    <script src="./app.js?v=20260701-3"></script>
     <script>
       if ("serviceWorker" in navigator && location.protocol !== "file:") {
         window.addEventListener("load", () => {
