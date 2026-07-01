@@ -24,9 +24,9 @@ const copy = {
     priceStatus: "價格",
     todayLabel: "今日財務概況",
     netWorth: "淨資產",
-    monthlyIncome: "本月收入",
+    monthlyIncome: "本月實際收入",
     monthlyExpense: "本月支出",
-    afterTax: "稅後估算",
+    afterTax: "依收入交易統計",
     debtRatio: "負債比",
     liabilityVsAsset: "負債 / 資產",
     assetMix: "資產負債",
@@ -55,6 +55,10 @@ const copy = {
     saveTransaction: "儲存交易",
     updateTransaction: "更新交易",
     cancelEdit: "取消編輯",
+    transactionDate: "日期",
+    debtTarget: "償還負債",
+    selectDebtFirst: "請先新增負債，才能記錄還款。",
+    paymentExceedsDebt: "還款金額不能高於目前負債餘額。",
     edit: "編輯",
     toAccount: "轉入帳戶",
     needTwoAccountsForTransfer: "轉帳需要至少兩個帳戶。",
@@ -126,7 +130,32 @@ const copy = {
     language: "語言",
     country: "國家/地區",
     currency: "幣別",
-    monthlyIncomeInput: "月收入",
+    monthlyIncomeInput: "預計月收入",
+    dataSafety: "資料安全",
+    privacyAndBackup: "隱私與備份",
+    privacy: "隱私保護",
+    unlockJarfolio: "解鎖 Jarfolio",
+    unlockHint: "輸入裝置密碼以查看財務資料。",
+    pinCode: "裝置密碼",
+    unlock: "解鎖",
+    incorrectPin: "密碼不正確，請再試一次。",
+    newPin: "設定裝置密碼",
+    confirmPin: "再次輸入密碼",
+    pinPrivacyNote: "裝置密碼可防止他人直接打開 App，但不等同雲端帳號密碼。請妥善保存備份。",
+    savePin: "儲存密碼",
+    removePin: "移除密碼",
+    pinEnabled: "密碼已開啟",
+    pinDisabled: "未設定密碼",
+    pinMismatch: "兩次輸入的密碼不同。",
+    pinSaved: "裝置密碼已儲存",
+    pinRemoved: "裝置密碼已移除",
+    setPinFirst: "請先在資料安全中設定裝置密碼。",
+    exportBackup: "匯出備份",
+    importBackup: "匯入備份",
+    backupHint: "備份檔包含你的財務資料，請只存放在可信任的位置。",
+    backupExported: "備份已匯出",
+    backupImported: "備份已還原",
+    backupInvalid: "無法讀取這個備份檔。",
     support: "支援",
     reportIssue: "問題回報",
     supportIntro: "可使用 Outlook 網頁版（可能需要登入）、電腦郵件程式，或複製內容後自行寄送。",
@@ -162,11 +191,19 @@ const copy = {
     deleteAssetConfirm: "確定要刪除這筆資產嗎？",
     deleteLiabilityConfirm: "確定要刪除這筆負債嗎？",
     deleteTransactionConfirm: "確定要刪除這筆交易嗎？",
+    updateAsset: "更新資產",
+    updateLiability: "更新負債",
+    accountInUse: "此帳戶仍有交易紀錄，請先刪除相關交易。",
+    debtInUse: "此負債仍有還款紀錄，請先刪除相關交易。",
     noDebtPriorityHint: "沒有負債時不會啟用還債帳戶。",
     selectAccountFirst: "請先新增一個帳戶，才能記帳。",
     noAccountOption: "尚未建立帳戶",
+    noTransactions: "還沒有交易，從第一筆收入或支出開始。",
+    noAssets: "這個分類還沒有資料。",
+    noLiabilities: "目前沒有負債。",
     incomePowerHint: "比例會先把月收入換算成 USD，再依國家生活成本調整；不會只看原始數字。",
-    marketDataNote: "原型中加密貨幣可嘗試公開行情同步；股票、ETF、基金、貴金屬需要正式行情資料商或 API key。",
+    marketDataNote: "匯率與支援的加密貨幣可同步公開行情；股票、ETF、基金、貴金屬仍需要正式行情資料商或 API key。",
+    referenceRates: "參考匯率",
     livePrice: "公開行情",
     needsMarketProvider: "需行情資料商/API key",
     priceSyncPartial: "部分價格已同步",
@@ -201,9 +238,9 @@ const copy = {
     priceStatus: "价格",
     todayLabel: "今日财务概况",
     netWorth: "净资产",
-    monthlyIncome: "本月收入",
+    monthlyIncome: "本月实际收入",
     monthlyExpense: "本月支出",
-    afterTax: "税后估算",
+    afterTax: "按收入交易统计",
     debtRatio: "负债比",
     liabilityVsAsset: "负债 / 资产",
     assetMix: "资产负债",
@@ -232,6 +269,10 @@ const copy = {
     saveTransaction: "保存交易",
     updateTransaction: "更新交易",
     cancelEdit: "取消编辑",
+    transactionDate: "日期",
+    debtTarget: "偿还负债",
+    selectDebtFirst: "请先新增负债，才能记录还款。",
+    paymentExceedsDebt: "还款金额不能高于当前负债余额。",
     edit: "编辑",
     toAccount: "转入账户",
     needTwoAccountsForTransfer: "转账需要至少两个账户。",
@@ -303,7 +344,32 @@ const copy = {
     language: "语言",
     country: "国家/地区",
     currency: "币别",
-    monthlyIncomeInput: "月收入",
+    monthlyIncomeInput: "预计月收入",
+    dataSafety: "数据安全",
+    privacyAndBackup: "隐私与备份",
+    privacy: "隐私保护",
+    unlockJarfolio: "解锁 Jarfolio",
+    unlockHint: "输入设备密码以查看财务数据。",
+    pinCode: "设备密码",
+    unlock: "解锁",
+    incorrectPin: "密码不正确，请再试一次。",
+    newPin: "设置设备密码",
+    confirmPin: "再次输入密码",
+    pinPrivacyNote: "设备密码可防止他人直接打开 App，但不等同云端账号密码。请妥善保存备份。",
+    savePin: "保存密码",
+    removePin: "移除密码",
+    pinEnabled: "密码已开启",
+    pinDisabled: "未设置密码",
+    pinMismatch: "两次输入的密码不同。",
+    pinSaved: "设备密码已保存",
+    pinRemoved: "设备密码已移除",
+    setPinFirst: "请先在数据安全中设置设备密码。",
+    exportBackup: "导出备份",
+    importBackup: "导入备份",
+    backupHint: "备份文件包含你的财务数据，请只保存在可信任的位置。",
+    backupExported: "备份已导出",
+    backupImported: "备份已恢复",
+    backupInvalid: "无法读取这个备份文件。",
     support: "支持",
     reportIssue: "问题反馈",
     supportIntro: "可使用 Outlook 网页版（可能需要登录）、电脑邮件应用，或复制内容后自行发送。",
@@ -339,11 +405,19 @@ const copy = {
     deleteAssetConfirm: "确定要删除这笔资产吗？",
     deleteLiabilityConfirm: "确定要删除这笔负债吗？",
     deleteTransactionConfirm: "确定要删除这笔交易吗？",
+    updateAsset: "更新资产",
+    updateLiability: "更新负债",
+    accountInUse: "此账户仍有交易记录，请先删除相关交易。",
+    debtInUse: "此负债仍有还款记录，请先删除相关交易。",
     noDebtPriorityHint: "没有负债时不会启用还债账户。",
     selectAccountFirst: "请先新增一个账户，才能记账。",
     noAccountOption: "尚未建立账户",
+    noTransactions: "还没有交易，从第一笔收入或支出开始。",
+    noAssets: "这个分类还没有数据。",
+    noLiabilities: "目前没有负债。",
     incomePowerHint: "比例会先把月收入换算成 USD，再按国家生活成本调整；不会只看原始数字。",
-    marketDataNote: "原型中加密货币可尝试公开行情同步；股票、ETF、基金、贵金属需要正式行情数据商或 API key。",
+    marketDataNote: "汇率与支持的加密货币可同步公开行情；股票、ETF、基金、贵金属仍需要正式行情数据商或 API key。",
+    referenceRates: "参考汇率",
     livePrice: "公开行情",
     needsMarketProvider: "需行情数据商/API key",
     priceSyncPartial: "部分价格已同步",
@@ -378,9 +452,9 @@ const copy = {
     priceStatus: "Prices",
     todayLabel: "Today",
     netWorth: "Net worth",
-    monthlyIncome: "Monthly income",
+    monthlyIncome: "Actual income this month",
     monthlyExpense: "Monthly expense",
-    afterTax: "After tax estimate",
+    afterTax: "From recorded income",
     debtRatio: "Debt ratio",
     liabilityVsAsset: "Debt / assets",
     assetMix: "Balance sheet",
@@ -409,6 +483,10 @@ const copy = {
     saveTransaction: "Save transaction",
     updateTransaction: "Update transaction",
     cancelEdit: "Cancel edit",
+    transactionDate: "Date",
+    debtTarget: "Debt to repay",
+    selectDebtFirst: "Add a debt before recording a repayment.",
+    paymentExceedsDebt: "The repayment cannot exceed the current debt balance.",
     edit: "Edit",
     toAccount: "To account",
     needTwoAccountsForTransfer: "Transfers need at least two accounts.",
@@ -480,7 +558,32 @@ const copy = {
     language: "Language",
     country: "Country / region",
     currency: "Currency",
-    monthlyIncomeInput: "Monthly income",
+    monthlyIncomeInput: "Planned monthly income",
+    dataSafety: "Data safety",
+    privacyAndBackup: "Privacy and backup",
+    privacy: "Privacy",
+    unlockJarfolio: "Unlock Jarfolio",
+    unlockHint: "Enter your device PIN to view financial data.",
+    pinCode: "Device PIN",
+    unlock: "Unlock",
+    incorrectPin: "Incorrect PIN. Try again.",
+    newPin: "Set device PIN",
+    confirmPin: "Confirm PIN",
+    pinPrivacyNote: "The device PIN prevents casual access to the app, but it is not a cloud account password. Keep a backup in a safe place.",
+    savePin: "Save PIN",
+    removePin: "Remove PIN",
+    pinEnabled: "PIN enabled",
+    pinDisabled: "No PIN",
+    pinMismatch: "The PINs do not match.",
+    pinSaved: "Device PIN saved",
+    pinRemoved: "Device PIN removed",
+    setPinFirst: "Set a device PIN in Data safety first.",
+    exportBackup: "Export backup",
+    importBackup: "Import backup",
+    backupHint: "The backup contains your financial data. Store it only in a trusted location.",
+    backupExported: "Backup exported",
+    backupImported: "Backup restored",
+    backupInvalid: "This backup file could not be read.",
     support: "Support",
     reportIssue: "Report a problem",
     supportIntro: "Use Outlook on the web (sign-in may be required), a desktop mail app, or copy the report and send it yourself.",
@@ -516,11 +619,19 @@ const copy = {
     deleteAssetConfirm: "Delete this asset?",
     deleteLiabilityConfirm: "Delete this debt?",
     deleteTransactionConfirm: "Delete this transaction?",
+    updateAsset: "Update asset",
+    updateLiability: "Update debt",
+    accountInUse: "This account still has transactions. Delete those transactions first.",
+    debtInUse: "This debt still has repayment records. Delete those transactions first.",
     noDebtPriorityHint: "Debt account is disabled when there is no debt.",
     selectAccountFirst: "Add an account before recording transactions.",
     noAccountOption: "No account yet",
+    noTransactions: "No transactions yet. Start with your first income or expense.",
+    noAssets: "Nothing in this category yet.",
+    noLiabilities: "You currently have no debt.",
     incomePowerHint: "The split converts monthly income to USD, then adjusts for local cost of living; it does not compare raw numbers only.",
-    marketDataNote: "In this prototype, crypto can try public market sync. Stocks, ETFs, funds, and metals need a licensed data provider or API key.",
+    marketDataNote: "Exchange rates and supported crypto can sync public prices. Stocks, ETFs, funds, and metals still need a licensed data provider or API key.",
+    referenceRates: "Reference rates",
     livePrice: "Public market price",
     needsMarketProvider: "Needs data provider/API key",
     priceSyncPartial: "Some prices synced",
@@ -555,9 +666,9 @@ const copy = {
     priceStatus: "価格",
     todayLabel: "今日の財務状況",
     netWorth: "純資産",
-    monthlyIncome: "今月の収入",
+    monthlyIncome: "今月の実収入",
     monthlyExpense: "今月の支出",
-    afterTax: "税引後の目安",
+    afterTax: "記録した収入から集計",
     debtRatio: "負債比率",
     liabilityVsAsset: "負債 / 資産",
     assetMix: "資産・負債",
@@ -586,6 +697,10 @@ const copy = {
     saveTransaction: "取引を保存",
     updateTransaction: "取引を更新",
     cancelEdit: "編集をキャンセル",
+    transactionDate: "日付",
+    debtTarget: "返済する負債",
+    selectDebtFirst: "返済を記録する前に負債を追加してください。",
+    paymentExceedsDebt: "返済額は現在の負債残高を超えることはできません。",
     edit: "編集",
     toAccount: "入金先口座",
     needTwoAccountsForTransfer: "振替には少なくとも2つの口座が必要です。",
@@ -657,7 +772,32 @@ const copy = {
     language: "言語",
     country: "国/地域",
     currency: "通貨",
-    monthlyIncomeInput: "月収",
+    monthlyIncomeInput: "予定月収",
+    dataSafety: "データ保護",
+    privacyAndBackup: "プライバシーとバックアップ",
+    privacy: "プライバシー保護",
+    unlockJarfolio: "Jarfolio をロック解除",
+    unlockHint: "財務データを表示するには端末 PIN を入力してください。",
+    pinCode: "端末 PIN",
+    unlock: "ロック解除",
+    incorrectPin: "PIN が正しくありません。",
+    newPin: "端末 PIN を設定",
+    confirmPin: "PIN を再入力",
+    pinPrivacyNote: "端末 PIN はアプリの無断閲覧を防ぎますが、クラウドアカウントのパスワードではありません。バックアップを安全に保管してください。",
+    savePin: "PIN を保存",
+    removePin: "PIN を削除",
+    pinEnabled: "PIN 有効",
+    pinDisabled: "PIN 未設定",
+    pinMismatch: "PIN が一致しません。",
+    pinSaved: "端末 PIN を保存しました",
+    pinRemoved: "端末 PIN を削除しました",
+    setPinFirst: "先にデータ保護で端末 PIN を設定してください。",
+    exportBackup: "バックアップを書き出す",
+    importBackup: "バックアップを読み込む",
+    backupHint: "バックアップには財務データが含まれます。信頼できる場所にのみ保存してください。",
+    backupExported: "バックアップを書き出しました",
+    backupImported: "バックアップを復元しました",
+    backupInvalid: "このバックアップを読み込めません。",
     support: "サポート",
     reportIssue: "問題を報告",
     supportIntro: "Outlook Web（ログインが必要な場合があります）、メールアプリ、または内容のコピーを利用できます。",
@@ -693,11 +833,19 @@ const copy = {
     deleteAssetConfirm: "この資産を削除しますか？",
     deleteLiabilityConfirm: "この負債を削除しますか？",
     deleteTransactionConfirm: "この取引を削除しますか？",
+    updateAsset: "資産を更新",
+    updateLiability: "負債を更新",
+    accountInUse: "この口座には取引記録があります。先に関連取引を削除してください。",
+    debtInUse: "この負債には返済記録があります。先に関連取引を削除してください。",
     noDebtPriorityHint: "負債がない場合、返済口座は有効になりません。",
     selectAccountFirst: "記録する前に口座を追加してください。",
     noAccountOption: "口座がありません",
+    noTransactions: "取引はまだありません。最初の収入または支出を記録しましょう。",
+    noAssets: "このカテゴリにはまだデータがありません。",
+    noLiabilities: "現在、負債はありません。",
     incomePowerHint: "配分は月収を USD に換算し、国ごとの生活コストで調整します。単純な数字だけでは判断しません。",
-    marketDataNote: "このプロトタイプでは暗号資産のみ公開価格の同期を試せます。株式、ETF、ファンド、貴金属には正式なデータプロバイダーまたは API key が必要です。",
+    marketDataNote: "為替と対応する暗号資産は公開価格を同期できます。株式、ETF、ファンド、貴金属には正式なデータプロバイダーまたは API key が必要です。",
+    referenceRates: "参考レート",
     livePrice: "公開価格",
     needsMarketProvider: "データプロバイダー/API key が必要",
     priceSyncPartial: "一部の価格を同期しました",
@@ -1362,7 +1510,8 @@ const countryCostBand = {
 
 const assetColors = ["#176f66", "#bd7b12", "#d95d47", "#4759a6", "#b24766"];
 const storageKey = "jarfolio-prototype-state-empty-v1";
-const appVersion = "0.4.0";
+const unlockSessionKey = "jarfolio-unlocked";
+const appVersion = "0.5.0";
 const supportEmail = "easymoneysniperLin@outlook.com";
 const debtSacrificeOrder = ["play", "giving", "education", "longTermSavings", "financialFreedom"];
 const defaultDebtSacrificeAccounts = ["play", "giving", "education", "longTermSavings"];
@@ -1406,11 +1555,19 @@ const defaultState = {
   receivables: [],
   liabilities: [],
   transactions: [],
-  lastPriceSync: null
+  lastPriceSync: null,
+  fxRates: null,
+  lastFxSync: null,
+  security: {
+    pinSalt: null,
+    pinHash: null
+  }
 };
 
 let state = loadState();
 let editingTransactionId = null;
+let editingAssetRef = null;
+let editingLiabilityId = null;
 let onboardingStep = "language";
 
 function nextDate(days) {
@@ -1431,19 +1588,155 @@ function loadState() {
   try {
     const stored = localStorage.getItem(storageKey);
     if (!stored) return structuredClone(defaultState);
-    const parsed = JSON.parse(stored);
-    return {
-      ...structuredClone(defaultState),
-      ...parsed,
-      onboardingComplete: parsed.onboardingComplete ?? true
-    };
+    return normalizeState(JSON.parse(stored));
   } catch {
     return structuredClone(defaultState);
   }
 }
 
+function normalizeState(input) {
+  if (!input || typeof input !== "object") throw new Error("Invalid state");
+  const baseCurrency = supportedCurrencies().includes(input.currency) ? input.currency : defaultState.currency;
+  const next = {
+    ...structuredClone(defaultState),
+    ...input,
+    currency: baseCurrency,
+    onboardingComplete: input.onboardingComplete ?? true,
+    security: {
+      ...structuredClone(defaultState.security),
+      ...(input.security || {})
+    }
+  };
+  const withCurrency = (items) => (Array.isArray(items) ? items : []).map((item) => ({
+    ...item,
+    currency: supportedCurrencies().includes(item.currency) ? item.currency : baseCurrency
+  }));
+  next.accounts = withCurrency(input.accounts);
+  next.fixedAssets = withCurrency(input.fixedAssets);
+  next.receivables = withCurrency(input.receivables);
+  next.liabilities = withCurrency(input.liabilities);
+  next.investments = (Array.isArray(input.investments) ? input.investments : []).map((item) => ({
+    ...item,
+    priceCurrency: item.priceCurrency || item.costCurrency || baseCurrency,
+    costCurrency: item.costCurrency || item.priceCurrency || baseCurrency
+  }));
+  next.transactions = (Array.isArray(input.transactions) ? input.transactions : []).map((item) => {
+    const account = next.accounts.find((candidate) => candidate.id === item.accountId);
+    return {
+      ...item,
+      currency: item.currency || account?.currency || baseCurrency,
+      liabilityId: item.liabilityId || null
+    };
+  });
+  return next;
+}
+
 function saveState() {
   localStorage.setItem(storageKey, JSON.stringify(state));
+}
+
+function hasDevicePin() {
+  return Boolean(state.security?.pinSalt && state.security?.pinHash);
+}
+
+function bytesToBase64(bytes) {
+  let binary = "";
+  bytes.forEach((byte) => { binary += String.fromCharCode(byte); });
+  return btoa(binary);
+}
+
+function base64ToBytes(value) {
+  return Uint8Array.from(atob(value), (character) => character.charCodeAt(0));
+}
+
+async function hashPin(pin, saltBase64) {
+  const encoder = new TextEncoder();
+  const key = await crypto.subtle.importKey(
+    "raw",
+    encoder.encode(pin),
+    "PBKDF2",
+    false,
+    ["deriveBits"]
+  );
+  const bits = await crypto.subtle.deriveBits({
+    name: "PBKDF2",
+    salt: base64ToBytes(saltBase64),
+    iterations: 150000,
+    hash: "SHA-256"
+  }, key, 256);
+  return bytesToBase64(new Uint8Array(bits));
+}
+
+async function createPinRecord(pin) {
+  const salt = crypto.getRandomValues(new Uint8Array(16));
+  const pinSalt = bytesToBase64(salt);
+  return { pinSalt, pinHash: await hashPin(pin, pinSalt) };
+}
+
+function isSessionUnlocked() {
+  return !hasDevicePin() || sessionStorage.getItem(unlockSessionKey) === state.security.pinHash;
+}
+
+function renderLockState() {
+  const overlay = document.getElementById("lockOverlay");
+  const locked = hasDevicePin() && !isSessionUnlocked();
+  overlay.hidden = !locked;
+  document.body.classList.toggle("privacy-locked", locked);
+  if (locked) window.requestAnimationFrame(() => document.getElementById("unlockPin").focus());
+}
+
+function lockApp() {
+  if (!hasDevicePin()) {
+    renderNavigation("settings");
+    document.querySelector('#pinForm input[name="pin"]').focus();
+    toast(t("setPinFirst"));
+    return;
+  }
+  sessionStorage.removeItem(unlockSessionKey);
+  document.getElementById("unlockForm").reset();
+  document.getElementById("unlockError").hidden = true;
+  renderLockState();
+}
+
+function renderSecurity() {
+  const enabled = hasDevicePin();
+  document.getElementById("pinStatus").textContent = t(enabled ? "pinEnabled" : "pinDisabled");
+  document.getElementById("removePin").disabled = !enabled;
+  renderLockState();
+}
+
+function exportBackup() {
+  const payload = {
+    format: "jarfolio-backup",
+    version: appVersion,
+    exportedAt: new Date().toISOString(),
+    state
+  };
+  const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+  const anchor = document.createElement("a");
+  anchor.href = url;
+  anchor.download = `jarfolio-backup-${isoDate(0)}.json`;
+  document.body.append(anchor);
+  anchor.click();
+  anchor.remove();
+  window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+  toast(t("backupExported"));
+}
+
+async function importBackup(file) {
+  const payload = JSON.parse(await file.text());
+  const candidate = payload?.format === "jarfolio-backup" ? payload.state : payload;
+  if (!candidate || !Array.isArray(candidate.accounts) || !Array.isArray(candidate.transactions)) {
+    throw new Error("Invalid backup");
+  }
+  state = normalizeState(candidate);
+  if (hasDevicePin()) sessionStorage.setItem(unlockSessionKey, state.security.pinHash);
+  saveState();
+  resetTransactionForm();
+  resetAssetEdit();
+  resetLiabilityEdit();
+  render();
 }
 
 function t(key) {
@@ -1498,7 +1791,7 @@ function exchangeToDefault(value, currency) {
 }
 
 function unitsPerUsd(currency) {
-  const unitsPerUsd = {
+  const fallbackRates = {
     USD: 1,
     TWD: 31.5,
     CNY: 7.24,
@@ -1518,7 +1811,8 @@ function unitsPerUsd(currency) {
     VND: 25400,
     AED: 3.67
   };
-  return unitsPerUsd[currency];
+  const liveRate = Number(state.fxRates?.[currency]);
+  return liveRate > 0 ? liveRate : fallbackRates[currency];
 }
 
 function convertCurrency(value, fromCurrency, toCurrency) {
@@ -1557,8 +1851,14 @@ function investmentPurchasePrice(item) {
   return Number(item.purchasePrice ?? item.averageCost ?? item.price ?? 0);
 }
 
+function investmentCostCurrency(item) {
+  return item.costCurrency || item.priceCurrency || state.currency;
+}
+
 function accountTotal() {
-  return state.accounts.reduce((sum, account) => sum + Number(account.balance || 0), 0);
+  return state.accounts.reduce((sum, account) => (
+    sum + exchangeToDefault(Number(account.balance || 0), account.currency || state.currency)
+  ), 0);
 }
 
 function investmentTotal() {
@@ -1569,15 +1869,21 @@ function investmentTotal() {
 }
 
 function fixedTotal() {
-  return state.fixedAssets.reduce((sum, item) => sum + Number(item.currentValue || 0), 0);
+  return state.fixedAssets.reduce((sum, item) => (
+    sum + exchangeToDefault(Number(item.currentValue || 0), item.currency || state.currency)
+  ), 0);
 }
 
 function receivableTotal() {
-  return state.receivables.reduce((sum, item) => sum + Number(item.amount || 0), 0);
+  return state.receivables.reduce((sum, item) => (
+    sum + exchangeToDefault(Number(item.amount || 0), item.currency || state.currency)
+  ), 0);
 }
 
 function liabilityTotal() {
-  return state.liabilities.reduce((sum, item) => sum + Number(item.balance || 0), 0);
+  return state.liabilities.reduce((sum, item) => (
+    sum + exchangeToDefault(Number(item.balance || 0), item.currency || state.currency)
+  ), 0);
 }
 
 function grossAssets() {
@@ -1605,7 +1911,9 @@ function selectedDebtSacrificeAccounts() {
 }
 
 function totalMinimumPayment() {
-  return state.liabilities.reduce((sum, item) => sum + Number(item.minimumPayment || 0), 0);
+  return state.liabilities.reduce((sum, item) => (
+    sum + exchangeToDefault(Number(item.minimumPayment || 0), item.currency || state.currency)
+  ), 0);
 }
 
 function hasHighInterestDebt() {
@@ -1665,13 +1973,13 @@ function applyDebtPriority(split) {
 function monthlyIncomeTotal() {
   return currentMonthTransactions()
     .filter((item) => item.type === "income")
-    .reduce((sum, item) => sum + Number(item.amount || 0), 0);
+    .reduce((sum, item) => sum + exchangeToDefault(Number(item.amount || 0), item.currency || state.currency), 0);
 }
 
 function monthlyExpenseTotal() {
   return currentMonthTransactions()
     .filter((item) => item.type === "expense" || item.type === "debtPayment")
-    .reduce((sum, item) => sum + Number(item.amount || 0), 0);
+    .reduce((sum, item) => sum + exchangeToDefault(Number(item.amount || 0), item.currency || state.currency), 0);
 }
 
 function isCurrentMonth(dateString) {
@@ -1688,15 +1996,16 @@ function monthlyReport() {
   const transactions = currentMonthTransactions();
   const income = transactions
     .filter((item) => item.type === "income")
-    .reduce((sum, item) => sum + Number(item.amount || 0), 0);
+    .reduce((sum, item) => sum + exchangeToDefault(Number(item.amount || 0), item.currency || state.currency), 0);
   const expense = transactions
     .filter((item) => item.type === "expense" || item.type === "debtPayment")
-    .reduce((sum, item) => sum + Number(item.amount || 0), 0);
+    .reduce((sum, item) => sum + exchangeToDefault(Number(item.amount || 0), item.currency || state.currency), 0);
   const categoryTotals = {};
   transactions
     .filter((item) => item.type === "expense" || item.type === "debtPayment")
     .forEach((item) => {
-      categoryTotals[item.category] = (categoryTotals[item.category] || 0) + Number(item.amount || 0);
+      categoryTotals[item.category] = (categoryTotals[item.category] || 0)
+        + exchangeToDefault(Number(item.amount || 0), item.currency || state.currency);
     });
   const topCategory = Object.entries(categoryTotals)
     .sort((a, b) => b[1] - a[1])[0];
@@ -1770,14 +2079,30 @@ const cryptoMarketIds = {
   MATIC: "matic-network"
 };
 
+async function syncExchangeRates() {
+  const response = await fetch("https://fxapi.app/api/usd.json");
+  if (!response.ok) throw new Error("FX provider unavailable");
+  const payload = await response.json();
+  if (!payload?.rates || typeof payload.rates !== "object") throw new Error("Invalid FX response");
+  const rates = { USD: 1 };
+  supportedCurrencies().forEach((currency) => {
+    const value = Number(payload.rates[currency]);
+    if (value > 0) rates[currency] = value;
+  });
+  if (Object.keys(rates).length < 2) throw new Error("No supported FX rates");
+  state.fxRates = rates;
+  state.lastFxSync = payload.timestamp || new Date().toISOString();
+  return Object.keys(rates).length;
+}
+
 function investmentPriceTag(item) {
   if (item.type === "crypto" && item.priceUpdatedAt) {
     return `${t("livePrice")} · ${item.provider}`;
   }
   if (item.type === "crypto" && cryptoMarketIds[item.symbol]) {
-    return `${t("purchasePrice")} ${formatMoney(investmentPurchasePrice(item), investmentPriceCurrency(item), true)} · CoinGecko`;
+    return `${t("purchasePrice")} ${formatMoney(investmentPurchasePrice(item), investmentCostCurrency(item), true)} · CoinGecko`;
   }
-  return `${t("purchasePrice")} ${formatMoney(investmentPurchasePrice(item), investmentPriceCurrency(item), true)} · ${t("needsMarketProvider")}`;
+  return `${t("purchasePrice")} ${formatMoney(investmentPurchasePrice(item), investmentCostCurrency(item), true)} · ${t("needsMarketProvider")}`;
 }
 
 async function syncInvestmentPrices() {
@@ -1845,7 +2170,9 @@ function renderNavigation(active = document.querySelector(".app").dataset.view) 
 
 function renderSummary() {
   document.getElementById("sidebarCurrency").textContent = state.currency;
-  document.getElementById("priceStatusText").textContent = t("updated");
+  document.getElementById("priceStatusText").textContent = state.lastPriceSync || state.lastFxSync
+    ? t("updated")
+    : t("referenceRates");
   document.getElementById("netWorthValue").textContent = formatMoney(netWorth());
   document.getElementById("netWorthHint").textContent = `${t("assetsTotal")} ${formatMoney(grossAssets(), state.currency, true)}`;
   document.getElementById("incomeValue").textContent = formatMoney(monthlyIncomeTotal());
@@ -1954,8 +2281,8 @@ function renderTransactions() {
       </div>
     `;
   }).join("");
-  document.getElementById("transactionList").innerHTML = markup;
-  document.getElementById("recentTransactions").innerHTML = sorted.slice(0, 5).map((item) => {
+  document.getElementById("transactionList").innerHTML = markup || `<div class="empty-state">${escapeHtml(t("noTransactions"))}</div>`;
+  const recentMarkup = sorted.slice(0, 5).map((item) => {
     const tone = item.type === "income" ? "positive" : item.type === "transfer" ? "" : "negative";
     return `
       <div class="transaction-row" data-row-id="${escapeHtml(item.id)}">
@@ -1970,6 +2297,7 @@ function renderTransactions() {
       </div>
     `;
   }).join("");
+  document.getElementById("recentTransactions").innerHTML = recentMarkup || `<div class="empty-state">${escapeHtml(t("noTransactions"))}</div>`;
   renderTransactionOptions();
 }
 
@@ -1977,13 +2305,18 @@ function transactionAccountMeta(item, accountMap) {
   if (item.type === "transfer") {
     return `${accountMap[item.accountId] || t("account")} -> ${accountMap[item.toAccountId] || t("toAccount")}`;
   }
+  if (item.type === "debtPayment") {
+    const liability = state.liabilities.find((candidate) => candidate.id === item.liabilityId);
+    return `${accountMap[item.accountId] || t("account")} -> ${liability?.name || t("debtTarget")}`;
+  }
   return accountMap[item.accountId] || t("account");
 }
 
 function transactionAmountLabel(item) {
-  if (item.type === "income") return `+${formatMoney(item.amount)}`;
-  if (item.type === "transfer") return `↔ ${formatMoney(item.amount)}`;
-  return `-${formatMoney(item.amount)}`;
+  const currency = item.currency || state.currency;
+  if (item.type === "income") return `+${formatMoney(item.amount, currency)}`;
+  if (item.type === "transfer") return `↔ ${formatMoney(item.amount, currency)}`;
+  return `-${formatMoney(item.amount, currency)}`;
 }
 
 function transactionActionButtons(item) {
@@ -2004,6 +2337,8 @@ function renderTransactionOptions() {
   const accountSelect = document.getElementById("transactionAccount");
   const transferWrap = document.getElementById("transferToWrap");
   const transferSelect = document.getElementById("transferToAccount");
+  const debtWrap = document.getElementById("debtTargetWrap");
+  const debtSelect = document.getElementById("transactionLiability");
   const accountHint = document.getElementById("transactionAccountHint");
   const submitButton = document.getElementById("transactionSubmit");
   const submitText = submitButton?.querySelector("[data-i18n]");
@@ -2012,7 +2347,16 @@ function renderTransactionOptions() {
     .map((key) => `<option value="${key}">${label(key)}</option>`)
     .join("");
   const isTransfer = transactionType?.value === "transfer";
+  const isDebtPayment = transactionType?.value === "debtPayment";
   if (transferWrap) transferWrap.hidden = !isTransfer;
+  if (transferSelect) transferSelect.disabled = !isTransfer;
+  if (debtWrap) debtWrap.hidden = !isDebtPayment;
+  if (debtSelect) {
+    debtSelect.innerHTML = state.liabilities
+      .map((item) => `<option value="${escapeHtml(item.id)}">${escapeHtml(item.name)} · ${escapeHtml(formatMoney(item.balance, item.currency || state.currency, true))}</option>`)
+      .join("");
+    debtSelect.disabled = !isDebtPayment || !state.liabilities.length;
+  }
 
   if (!state.accounts.length) {
     accountSelect.innerHTML = `<option value="">${escapeHtml(t("noAccountOption"))}</option>`;
@@ -2025,14 +2369,16 @@ function renderTransactionOptions() {
   }
 
   accountSelect.innerHTML = state.accounts
-    .map((account) => `<option value="${escapeHtml(account.id)}">${escapeHtml(account.name)}</option>`)
+    .map((account) => `<option value="${escapeHtml(account.id)}">${escapeHtml(account.name)} · ${escapeHtml(account.currency || state.currency)}</option>`)
     .join("");
   accountSelect.disabled = false;
   renderTransferAccountOptions();
   const transferBlocked = isTransfer && state.accounts.length < 2;
-  if (accountHint) accountHint.hidden = !transferBlocked;
+  const debtBlocked = isDebtPayment && !state.liabilities.length;
+  if (accountHint) accountHint.hidden = !transferBlocked && !debtBlocked;
   if (accountHint && transferBlocked) accountHint.textContent = t("needTwoAccountsForTransfer");
-  if (submitButton) submitButton.disabled = transferBlocked;
+  if (accountHint && debtBlocked) accountHint.textContent = t("selectDebtFirst");
+  if (submitButton) submitButton.disabled = transferBlocked || debtBlocked;
   if (submitText) submitText.textContent = editingTransactionId ? t("updateTransaction") : t("saveTransaction");
   document.getElementById("transactionCancelEdit").hidden = !editingTransactionId;
 }
@@ -2055,12 +2401,18 @@ function renderQuickAccountState() {
 }
 
 function renderInvestmentCurrencyOptions() {
-  const select = document.getElementById("investmentCurrency");
-  if (!select) return;
-  select.innerHTML = supportedCurrencies()
-    .map((currency) => `<option value="${currency}">${currency}</option>`)
-    .join("");
-  select.value = state.currency;
+  document.querySelectorAll(".item-currency, #investmentCurrency").forEach((select) => {
+    const previous = select.value;
+    const formId = select.closest("form")?.id;
+    const isEditing = Boolean(
+      (editingAssetRef && ["liquidForm", "investmentForm", "fixedForm", "receivableForm"].includes(formId))
+      || (editingLiabilityId && formId === "liabilityForm")
+    );
+    select.innerHTML = supportedCurrencies()
+      .map((currency) => `<option value="${currency}">${currency}</option>`)
+      .join("");
+    select.value = isEditing && supportedCurrencies().includes(previous) ? previous : state.currency;
+  });
 }
 
 function typeLabel(type) {
@@ -2106,7 +2458,7 @@ function renderAssets() {
 
   let rows = "";
   if (state.activeAssetTab === "liquid") {
-    rows = state.accounts.map((item) => assetRow("accounts", item.id, item.name, accountMeta(item), formatMoney(item.balance))).join("");
+    rows = state.accounts.map((item) => assetRow("accounts", item.id, item.name, accountMeta(item), formatMoney(item.balance, item.currency || state.currency))).join("");
   }
   if (state.activeAssetTab === "investments") {
     rows = state.investments.map((item) => {
@@ -2115,12 +2467,12 @@ function renderAssets() {
     }).join("");
   }
   if (state.activeAssetTab === "fixed") {
-    rows = state.fixedAssets.map((item) => assetRow("fixedAssets", item.id, item.name, typeLabel(item.type), formatMoney(item.currentValue))).join("");
+    rows = state.fixedAssets.map((item) => assetRow("fixedAssets", item.id, item.name, typeLabel(item.type), formatMoney(item.currentValue, item.currency || state.currency))).join("");
   }
   if (state.activeAssetTab === "receivables") {
-    rows = state.receivables.map((item) => assetRow("receivables", item.id, item.person, `${t("dueDate")} ${item.dueDate}`, formatMoney(item.amount), statusLabel(item.status))).join("");
+    rows = state.receivables.map((item) => assetRow("receivables", item.id, item.person, `${t("dueDate")} ${item.dueDate}`, formatMoney(item.amount, item.currency || state.currency), statusLabel(item.status))).join("");
   }
-  document.getElementById("assetList").innerHTML = rows;
+  document.getElementById("assetList").innerHTML = rows || `<div class="empty-state">${escapeHtml(t("noAssets"))}</div>`;
 }
 
 function accountMeta(item) {
@@ -2130,6 +2482,7 @@ function accountMeta(item) {
 
 function assetRow(collection, id, title, meta, amount, tag = "") {
   const safeTitle = escapeHtml(title);
+  const editLabel = escapeHtml(`${t("edit")}: ${title}`);
   const deleteLabel = escapeHtml(`${t("delete")}: ${title}`);
   return `
     <div class="asset-row" data-row-id="${escapeHtml(id)}">
@@ -2139,6 +2492,9 @@ function assetRow(collection, id, title, meta, amount, tag = "") {
       </div>
       <div class="row-actions">
         <b>${amount}</b>
+        <button class="row-delete" type="button" data-edit-asset="${escapeHtml(collection)}" data-edit-id="${escapeHtml(id)}" aria-label="${editLabel}" title="${escapeHtml(t("edit"))}">
+          ${icons.edit}
+        </button>
         <button class="row-delete" type="button" data-delete-asset="${escapeHtml(collection)}" data-delete-id="${escapeHtml(id)}" aria-label="${deleteLabel}" title="${escapeHtml(t("delete"))}">
           ${icons.trash}
         </button>
@@ -2163,14 +2519,17 @@ function renderLiabilities() {
         </div>
       </div>
       <div class="row-actions">
-        <b>${formatMoney(item.balance)}</b>
+        <b>${formatMoney(item.balance, item.currency || state.currency)}</b>
+        <button class="row-delete" type="button" data-edit-liability="${escapeHtml(item.id)}" aria-label="${escapeHtml(`${t("edit")}: ${item.name}`)}" title="${escapeHtml(t("edit"))}">
+          ${icons.edit}
+        </button>
         <button class="row-delete" type="button" data-delete-liability="${escapeHtml(item.id)}" aria-label="${escapeHtml(`${t("delete")}: ${item.name}`)}" title="${escapeHtml(t("delete"))}">
           ${icons.trash}
         </button>
       </div>
     </div>
   `).join("");
-  document.getElementById("liabilityList").innerHTML = rows;
+  document.getElementById("liabilityList").innerHTML = rows || `<div class="empty-state">${escapeHtml(t("noLiabilities"))}</div>`;
 }
 
 function renderWalletOptions() {
@@ -2217,19 +2576,21 @@ function isOtherProvider(value) {
   return ["other", "其他", "その他"].includes(String(value || "").trim().toLowerCase());
 }
 
-function addAccountFromForm(form) {
+function accountFromForm(form, existing = {}) {
   const type = String(form.get("type") || "cash");
   const name = String(form.get("name") || "").trim();
   const customProvider = String(form.get("customProvider") || "").trim();
   const providerValue = customProvider || form.get("provider");
   const provider = type === "cash" ? "" : String(providerValue || "").trim();
-  state.accounts.push({
-    id: uid("a"),
+  return {
+    ...existing,
+    id: existing.id || uid("a"),
     type,
     provider,
     name: name || provider || typeLabel(type) || t("account"),
-    balance: Number(form.get("balance") || 0)
-  });
+    balance: Number(form.get("balance") || 0),
+    currency: form.get("currency") || existing.currency || state.currency
+  };
 }
 
 function renderSettings() {
@@ -2336,6 +2697,9 @@ function render() {
   renderInvestmentCurrencyOptions();
   renderSettings();
   renderOnboarding();
+  renderSecurity();
+  const transactionDate = document.getElementById("transactionDate");
+  if (!editingTransactionId && !transactionDate.value) transactionDate.value = isoDate(0);
 }
 
 function toast(message) {
@@ -2346,17 +2710,125 @@ function toast(message) {
   toast.timer = window.setTimeout(() => node.classList.remove("visible"), 1600);
 }
 
+function resetAssetEdit() {
+  editingAssetRef = null;
+  document.querySelectorAll(".asset-form").forEach((form) => {
+    form.reset();
+    const submitText = form.querySelector('button[type="submit"] [data-i18n]');
+    if (submitText) submitText.textContent = t(submitText.dataset.i18n);
+  });
+  document.querySelectorAll(".asset-cancel-edit").forEach((button) => {
+    button.hidden = true;
+  });
+  renderInvestmentCurrencyOptions();
+  renderWalletOptions();
+}
+
+function startEditAsset(collection, id) {
+  const config = {
+    accounts: { tab: "liquid", formId: "liquidForm" },
+    investments: { tab: "investments", formId: "investmentForm" },
+    fixedAssets: { tab: "fixed", formId: "fixedForm" },
+    receivables: { tab: "receivables", formId: "receivableForm" }
+  }[collection];
+  const item = state[collection]?.find((candidate) => candidate.id === id);
+  if (!config || !item) return;
+  editingAssetRef = { collection, id };
+  state.activeAssetTab = config.tab;
+  renderAssets();
+  const form = document.getElementById(config.formId);
+  form.reset();
+  renderInvestmentCurrencyOptions();
+
+  if (collection === "accounts") {
+    form.elements.type.value = item.type;
+    renderWalletOptions();
+    const providerSelect = form.elements.provider;
+    if (providerSelect && item.provider) {
+      const optionValues = [...providerSelect.options].map((option) => option.value);
+      providerSelect.value = optionValues.includes(item.provider) ? item.provider : optionValues.at(-1);
+      renderWalletOptions();
+      const custom = form.elements.customProvider;
+      if (custom && !optionValues.includes(item.provider)) custom.value = item.provider;
+    }
+    form.elements.name.value = item.name || "";
+    form.elements.balance.value = item.balance || 0;
+    form.elements.currency.value = item.currency || state.currency;
+  }
+  if (collection === "investments") {
+    form.elements.type.value = item.type;
+    form.elements.symbol.value = item.symbol || "";
+    form.elements.quantity.value = item.quantity || 0;
+    form.elements.purchasePrice.value = investmentPurchasePrice(item);
+    form.elements.currency.value = item.costCurrency || item.priceCurrency || state.currency;
+  }
+  if (collection === "fixedAssets") {
+    form.elements.type.value = item.type;
+    form.elements.name.value = item.name || "";
+    form.elements.purchaseValue.value = item.purchaseValue || 0;
+    form.elements.currentValue.value = item.currentValue || 0;
+    form.elements.currency.value = item.currency || state.currency;
+  }
+  if (collection === "receivables") {
+    form.elements.person.value = item.person || "";
+    form.elements.amount.value = item.amount || 0;
+    form.elements.dueDate.value = item.dueDate || "";
+    form.elements.status.value = item.status || "open";
+    form.elements.currency.value = item.currency || state.currency;
+  }
+  const submitText = form.querySelector('button[type="submit"] [data-i18n]');
+  if (submitText) submitText.textContent = t("updateAsset");
+  form.querySelector(".asset-cancel-edit").hidden = false;
+  form.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+function resetLiabilityEdit() {
+  editingLiabilityId = null;
+  const form = document.getElementById("liabilityForm");
+  form.reset();
+  renderInvestmentCurrencyOptions();
+  form.querySelector('button[type="submit"] [data-i18n]').textContent = t("addLiability");
+  document.getElementById("liabilityCancelEdit").hidden = true;
+}
+
+function startEditLiability(id) {
+  const item = state.liabilities.find((candidate) => candidate.id === id);
+  if (!item) return;
+  editingLiabilityId = id;
+  const form = document.getElementById("liabilityForm");
+  form.elements.type.value = item.type;
+  form.elements.name.value = item.name || "";
+  form.elements.balance.value = item.balance || 0;
+  form.elements.rate.value = item.rate || 0;
+  form.elements.dueDate.value = item.dueDate || "";
+  form.elements.minimumPayment.value = item.minimumPayment || 0;
+  form.elements.currency.value = item.currency || state.currency;
+  form.querySelector('button[type="submit"] [data-i18n]').textContent = t("updateLiability");
+  document.getElementById("liabilityCancelEdit").hidden = false;
+  form.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
 function deleteAsset(collection, id) {
   const allowedCollections = ["accounts", "investments", "fixedAssets", "receivables"];
   if (!allowedCollections.includes(collection)) return;
+  if (collection === "accounts" && state.transactions.some((item) => item.accountId === id || item.toAccountId === id)) {
+    toast(t("accountInUse"));
+    return;
+  }
   state[collection] = state[collection].filter((item) => item.id !== id);
+  if (editingAssetRef?.collection === collection && editingAssetRef.id === id) resetAssetEdit();
   saveState();
   render();
   toast(t("deleted"));
 }
 
 function deleteLiability(id) {
+  if (state.transactions.some((item) => item.liabilityId === id)) {
+    toast(t("debtInUse"));
+    return;
+  }
   state.liabilities = state.liabilities.filter((item) => item.id !== id);
+  if (editingLiabilityId === id) resetLiabilityEdit();
   if (!hasDebt()) state.debtPriority = false;
   saveState();
   render();
@@ -2369,13 +2841,29 @@ function adjustAccountBalance(accountId, amount) {
   account.balance = Number(account.balance || 0) + amount;
 }
 
+function adjustLiabilityBalance(liabilityId, amount, amountCurrency) {
+  const liability = state.liabilities.find((item) => item.id === liabilityId);
+  if (!liability) return;
+  const converted = convertCurrency(amount, amountCurrency || state.currency, liability.currency || state.currency);
+  liability.balance = Math.max(0, Number(liability.balance || 0) + converted);
+}
+
 function applyTransactionEffect(transaction, direction = 1) {
   const amount = Number(transaction.amount || 0);
+  const sourceAccount = state.accounts.find((item) => item.id === transaction.accountId);
+  const sourceCurrency = transaction.currency || sourceAccount?.currency || state.currency;
   if (transaction.type === "income") adjustAccountBalance(transaction.accountId, amount * direction);
-  if (transaction.type === "expense" || transaction.type === "debtPayment") adjustAccountBalance(transaction.accountId, -amount * direction);
+  if (transaction.type === "expense" || transaction.type === "debtPayment") {
+    adjustAccountBalance(transaction.accountId, -amount * direction);
+  }
+  if (transaction.type === "debtPayment" && transaction.liabilityId) {
+    adjustLiabilityBalance(transaction.liabilityId, -amount * direction, sourceCurrency);
+  }
   if (transaction.type === "transfer") {
     adjustAccountBalance(transaction.accountId, -amount * direction);
-    adjustAccountBalance(transaction.toAccountId, amount * direction);
+    const targetAccount = state.accounts.find((item) => item.id === transaction.toAccountId);
+    const targetAmount = convertCurrency(amount, sourceCurrency, targetAccount?.currency || sourceCurrency);
+    adjustAccountBalance(transaction.toAccountId, targetAmount * direction);
   }
 }
 
@@ -2390,21 +2878,26 @@ function deleteTransaction(id) {
 }
 
 function transactionFromForm(form, existing = {}) {
+  const accountId = form.get("account");
+  const account = state.accounts.find((item) => item.id === accountId);
   return {
     id: existing.id || uid("t"),
     type: form.get("type"),
     amount: Number(form.get("amount") || 0),
     category: form.get("category"),
-    accountId: form.get("account"),
+    accountId,
     toAccountId: form.get("toAccount") || null,
+    liabilityId: form.get("liability") || null,
+    currency: account?.currency || existing.currency || state.currency,
     note: form.get("note"),
-    date: existing.date || isoDate(0)
+    date: form.get("date") || existing.date || isoDate(0)
   };
 }
 
 function resetTransactionForm() {
   editingTransactionId = null;
   document.getElementById("transactionForm").reset();
+  document.getElementById("transactionDate").value = isoDate(0);
   renderTransactionOptions();
 }
 
@@ -2417,10 +2910,12 @@ function startEditTransaction(id) {
   form.elements.type.value = transaction.type;
   renderTransactionOptions();
   form.elements.amount.value = transaction.amount;
+  form.elements.date.value = transaction.date;
   form.elements.category.value = transaction.category;
   form.elements.account.value = transaction.accountId;
   renderTransferAccountOptions();
   if (transaction.toAccountId) form.elements.toAccount.value = transaction.toAccountId;
+  if (transaction.liabilityId) form.elements.liability.value = transaction.liabilityId;
   form.elements.note.value = transaction.note || "";
   document.getElementById("transactionCancelEdit").hidden = false;
   document.querySelector("#transactionSubmit [data-i18n]").textContent = t("updateTransaction");
@@ -2474,16 +2969,33 @@ function bindEvents() {
     render();
   });
 
-  document.getElementById("lockButton").addEventListener("click", () => toast(t("locked")));
+  document.getElementById("lockButton").addEventListener("click", lockApp);
+
+  document.getElementById("unlockForm").addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const pin = new FormData(event.currentTarget).get("pin");
+    const hash = await hashPin(pin, state.security.pinSalt);
+    const isValid = hash === state.security.pinHash;
+    document.getElementById("unlockError").hidden = isValid;
+    if (!isValid) return;
+    sessionStorage.setItem(unlockSessionKey, state.security.pinHash);
+    event.currentTarget.reset();
+    renderLockState();
+  });
 
   document.getElementById("syncPrices").addEventListener("click", async () => {
     const button = document.getElementById("syncPrices");
     button.disabled = true;
     try {
-      const updated = await syncInvestmentPrices();
+      const [fxResult, investmentResult] = await Promise.allSettled([
+        syncExchangeRates(),
+        syncInvestmentPrices()
+      ]);
+      const fxUpdated = fxResult.status === "fulfilled" && fxResult.value > 0;
+      const investmentsUpdated = investmentResult.status === "fulfilled" && investmentResult.value > 0;
       saveState();
       render();
-      toast(updated ? t("priceSyncPartial") : t("priceSyncUnavailable"));
+      toast(fxUpdated || investmentsUpdated ? t("priceSynced") : t("priceSyncUnavailable"));
     } catch {
       toast(t("priceSyncUnavailable"));
     } finally {
@@ -2516,6 +3028,22 @@ function bindEvents() {
     }
     const existing = editingTransactionId ? state.transactions.find((item) => item.id === editingTransactionId) : null;
     const nextTransaction = transactionFromForm(form, existing || {});
+    if (type === "debtPayment") {
+      const liability = state.liabilities.find((item) => item.id === nextTransaction.liabilityId);
+      if (!liability) {
+        toast(t("selectDebtFirst"));
+        renderTransactionOptions();
+        return;
+      }
+      const payment = convertCurrency(nextTransaction.amount, nextTransaction.currency, liability.currency || state.currency);
+      const previousPayment = existing?.type === "debtPayment" && existing.liabilityId === liability.id
+        ? convertCurrency(existing.amount, existing.currency || state.currency, liability.currency || state.currency)
+        : 0;
+      if (payment > Number(liability.balance || 0) + previousPayment + 0.0001) {
+        toast(t("paymentExceedsDebt"));
+        return;
+      }
+    }
     if (existing) {
       applyTransactionEffect(existing, -1);
       state.transactions = state.transactions.map((item) => item.id === existing.id ? nextTransaction : item);
@@ -2525,6 +3053,7 @@ function bindEvents() {
     applyTransactionEffect(nextTransaction, 1);
     editingTransactionId = null;
     event.currentTarget.reset();
+    document.getElementById("transactionDate").value = isoDate(0);
     saveState();
     render();
     toast(t("saved"));
@@ -2547,6 +3076,11 @@ function bindEvents() {
   });
 
   document.getElementById("assetList").addEventListener("click", (event) => {
+    const editButton = event.target.closest("[data-edit-asset]");
+    if (editButton) {
+      startEditAsset(editButton.dataset.editAsset, editButton.dataset.editId);
+      return;
+    }
     const button = event.target.closest("[data-delete-asset]");
     if (!button) return;
     if (!window.confirm(t("deleteAssetConfirm"))) return;
@@ -2554,6 +3088,11 @@ function bindEvents() {
   });
 
   document.getElementById("liabilityList").addEventListener("click", (event) => {
+    const editButton = event.target.closest("[data-edit-liability]");
+    if (editButton) {
+      startEditLiability(editButton.dataset.editLiability);
+      return;
+    }
     const button = event.target.closest("[data-delete-liability]");
     if (!button) return;
     if (!window.confirm(t("deleteLiabilityConfirm"))) return;
@@ -2562,6 +3101,7 @@ function bindEvents() {
 
   document.querySelectorAll(".asset-tab").forEach((button) => {
     button.addEventListener("click", () => {
+      resetAssetEdit();
       state.activeAssetTab = button.dataset.assetTab;
       saveState();
       renderAssets();
@@ -2573,11 +3113,15 @@ function bindEvents() {
   document.querySelectorAll("[data-wallet-provider]").forEach((select) => {
     select.addEventListener("change", renderWalletOptions);
   });
+  document.querySelectorAll(".asset-cancel-edit").forEach((button) => {
+    button.addEventListener("click", resetAssetEdit);
+  });
+  document.getElementById("liabilityCancelEdit").addEventListener("click", resetLiabilityEdit);
 
   document.getElementById("quickAccountForm").addEventListener("submit", (event) => {
     event.preventDefault();
     const form = new FormData(event.currentTarget);
-    addAccountFromForm(form);
+    state.accounts.push(accountFromForm(form));
     event.currentTarget.reset();
     document.getElementById("quickAccountDetails").open = false;
     saveState();
@@ -2588,8 +3132,14 @@ function bindEvents() {
   document.getElementById("liquidForm").addEventListener("submit", (event) => {
     event.preventDefault();
     const form = new FormData(event.currentTarget);
-    addAccountFromForm(form);
-    event.currentTarget.reset();
+    const existing = editingAssetRef?.collection === "accounts"
+      ? state.accounts.find((item) => item.id === editingAssetRef.id)
+      : null;
+    const next = accountFromForm(form, existing || {});
+    state.accounts = existing
+      ? state.accounts.map((item) => item.id === existing.id ? next : item)
+      : [...state.accounts, next];
+    resetAssetEdit();
     saveState();
     render();
     toast(t("saved"));
@@ -2601,19 +3151,29 @@ function bindEvents() {
     const symbol = String(form.get("symbol") || "").toUpperCase();
     const purchasePrice = Number(form.get("purchasePrice") || 0);
     const priceCurrency = form.get("currency") || state.currency;
-    state.investments.push({
-      id: uid("i"),
+    const existing = editingAssetRef?.collection === "investments"
+      ? state.investments.find((item) => item.id === editingAssetRef.id)
+      : null;
+    const keepLivePrice = existing?.provider !== "Manual" && existing?.symbol === symbol && existing?.type === form.get("type");
+    const next = {
+      ...(existing || {}),
+      id: existing?.id || uid("i"),
       type: form.get("type"),
       symbol,
       name: symbol,
       quantity: Number(form.get("quantity") || 0),
       purchasePrice,
       averageCost: purchasePrice,
-      price: purchasePrice,
-      priceCurrency,
+      price: keepLivePrice ? existing.price : purchasePrice,
+      priceCurrency: keepLivePrice ? existing.priceCurrency : priceCurrency,
       costCurrency: priceCurrency,
-      provider: "Manual"
-    });
+      provider: keepLivePrice ? existing.provider : "Manual",
+      priceUpdatedAt: keepLivePrice ? existing.priceUpdatedAt : null
+    };
+    state.investments = existing
+      ? state.investments.map((item) => item.id === existing.id ? next : item)
+      : [...state.investments, next];
+    resetAssetEdit();
     saveState();
     render();
     toast(t("saved"));
@@ -2622,13 +3182,22 @@ function bindEvents() {
   document.getElementById("fixedForm").addEventListener("submit", (event) => {
     event.preventDefault();
     const form = new FormData(event.currentTarget);
-    state.fixedAssets.push({
-      id: uid("f"),
+    const existing = editingAssetRef?.collection === "fixedAssets"
+      ? state.fixedAssets.find((item) => item.id === editingAssetRef.id)
+      : null;
+    const next = {
+      ...(existing || {}),
+      id: existing?.id || uid("f"),
       type: form.get("type"),
       name: form.get("name"),
       purchaseValue: Number(form.get("purchaseValue") || 0),
-      currentValue: Number(form.get("currentValue") || 0)
-    });
+      currentValue: Number(form.get("currentValue") || 0),
+      currency: form.get("currency") || state.currency
+    };
+    state.fixedAssets = existing
+      ? state.fixedAssets.map((item) => item.id === existing.id ? next : item)
+      : [...state.fixedAssets, next];
+    resetAssetEdit();
     saveState();
     render();
     toast(t("saved"));
@@ -2637,13 +3206,22 @@ function bindEvents() {
   document.getElementById("receivableForm").addEventListener("submit", (event) => {
     event.preventDefault();
     const form = new FormData(event.currentTarget);
-    state.receivables.push({
-      id: uid("r"),
+    const existing = editingAssetRef?.collection === "receivables"
+      ? state.receivables.find((item) => item.id === editingAssetRef.id)
+      : null;
+    const next = {
+      ...(existing || {}),
+      id: existing?.id || uid("r"),
       person: form.get("person"),
       amount: Number(form.get("amount") || 0),
       dueDate: form.get("dueDate") || isoDate(30),
-      status: form.get("status")
-    });
+      status: form.get("status"),
+      currency: form.get("currency") || state.currency
+    };
+    state.receivables = existing
+      ? state.receivables.map((item) => item.id === existing.id ? next : item)
+      : [...state.receivables, next];
+    resetAssetEdit();
     saveState();
     render();
     toast(t("saved"));
@@ -2652,15 +3230,24 @@ function bindEvents() {
   document.getElementById("liabilityForm").addEventListener("submit", (event) => {
     event.preventDefault();
     const form = new FormData(event.currentTarget);
-    state.liabilities.push({
-      id: uid("l"),
+    const existing = editingLiabilityId
+      ? state.liabilities.find((item) => item.id === editingLiabilityId)
+      : null;
+    const next = {
+      ...(existing || {}),
+      id: existing?.id || uid("l"),
       type: form.get("type"),
       name: form.get("name"),
       balance: Number(form.get("balance") || 0),
       rate: Number(form.get("rate") || 0),
       dueDate: form.get("dueDate") || isoDate(30),
-      minimumPayment: Number(form.get("minimumPayment") || 0)
-    });
+      minimumPayment: Number(form.get("minimumPayment") || 0),
+      currency: form.get("currency") || state.currency
+    };
+    state.liabilities = existing
+      ? state.liabilities.map((item) => item.id === existing.id ? next : item)
+      : [...state.liabilities, next];
+    resetLiabilityEdit();
     saveState();
     render();
     toast(t("saved"));
@@ -2680,6 +3267,44 @@ function bindEvents() {
     saveState();
     render();
     toast(t("saved"));
+  });
+
+  document.getElementById("pinForm").addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const form = new FormData(event.currentTarget);
+    const pin = String(form.get("pin") || "");
+    if (pin !== String(form.get("confirmPin") || "")) {
+      toast(t("pinMismatch"));
+      return;
+    }
+    state.security = await createPinRecord(pin);
+    sessionStorage.setItem(unlockSessionKey, state.security.pinHash);
+    saveState();
+    event.currentTarget.reset();
+    renderSecurity();
+    toast(t("pinSaved"));
+  });
+
+  document.getElementById("removePin").addEventListener("click", () => {
+    state.security = structuredClone(defaultState.security);
+    sessionStorage.removeItem(unlockSessionKey);
+    saveState();
+    renderSecurity();
+    toast(t("pinRemoved"));
+  });
+
+  document.getElementById("exportBackup").addEventListener("click", exportBackup);
+  document.getElementById("importBackup").addEventListener("change", async (event) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+    try {
+      await importBackup(file);
+      toast(t("backupImported"));
+    } catch {
+      toast(t("backupInvalid"));
+    } finally {
+      event.target.value = "";
+    }
   });
 
   function buildSupportReport(formElement) {
