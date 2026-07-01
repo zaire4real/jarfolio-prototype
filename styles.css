@@ -30,6 +30,74 @@ body {
   min-height: 100%;
 }
 
+body.privacy-locked {
+  overflow: hidden;
+}
+
+.lock-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: rgba(244, 241, 232, 0.98);
+  backdrop-filter: blur(18px);
+}
+
+.lock-overlay[hidden] {
+  display: none;
+}
+
+.lock-dialog {
+  width: min(420px, 100%);
+  padding: 30px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  box-shadow: var(--shadow);
+}
+
+.lock-mark {
+  display: grid;
+  width: 48px;
+  height: 48px;
+  margin-bottom: 24px;
+  place-items: center;
+  border-radius: 50%;
+  color: white;
+  background: var(--teal);
+}
+
+.lock-dialog h1 {
+  margin: 6px 0 8px;
+  font-size: 28px;
+}
+
+.lock-intro {
+  margin: 0 0 22px;
+  color: var(--muted);
+}
+
+.lock-form {
+  display: grid;
+  gap: 14px;
+}
+
+.lock-form label {
+  display: grid;
+  gap: 7px;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.form-error {
+  margin: 0;
+  color: var(--coral);
+  font-size: 13px;
+}
+
 body {
   margin: 0;
   background:
@@ -1034,6 +1102,43 @@ label {
   line-height: 1.5;
 }
 
+.empty-state {
+  display: grid;
+  min-height: 110px;
+  place-items: center;
+  padding: 20px;
+  border: 1px dashed var(--line);
+  border-radius: 8px;
+  color: var(--muted);
+  text-align: center;
+  font-size: 13px;
+}
+
+.backup-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.file-button {
+  position: relative;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.file-button input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.data-panel .pill {
+  white-space: nowrap;
+}
+
 .bottom-nav {
   display: none;
 }
@@ -1070,7 +1175,7 @@ label {
   }
 
   .main {
-    padding: 18px 14px 92px;
+    padding: 18px 14px calc(92px + env(safe-area-inset-bottom));
   }
 
   .topbar {
@@ -1108,7 +1213,7 @@ label {
     position: fixed;
     left: 10px;
     right: 10px;
-    bottom: 10px;
+    bottom: calc(10px + env(safe-area-inset-bottom));
     z-index: 12;
     display: grid;
     grid-template-columns: repeat(5, 1fr);
@@ -1137,6 +1242,14 @@ label {
 }
 
 @media (max-width: 620px) {
+  .lock-overlay {
+    align-items: end;
+    padding: 12px 12px calc(12px + env(safe-area-inset-bottom));
+  }
+
+  .lock-dialog {
+    padding: 24px 18px;
+  }
   .onboarding-overlay {
     align-items: end;
     padding: 12px;
@@ -1168,6 +1281,10 @@ label {
   }
 
   .support-actions {
+    grid-template-columns: 1fr;
+  }
+
+  .backup-actions {
     grid-template-columns: 1fr;
   }
 
