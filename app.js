@@ -115,11 +115,13 @@ const copy = {
     liability: "負債",
     liabilityType: "負債類型",
     creditCard: "信用卡",
+    revolvingCredit: "循環信貸",
     mortgage: "房貸",
     autoLoan: "車貸",
     consumerLoan: "消費貸款",
     educationLoan: "教育貸款",
     otherLoan: "其他貸款",
+    noFixedDueDate: "無固定到期日",
     interestRate: "利率",
     minimumPayment: "最低應繳",
     addLiability: "新增負債",
@@ -329,11 +331,13 @@ const copy = {
     liability: "负债",
     liabilityType: "负债类型",
     creditCard: "信用卡",
+    revolvingCredit: "循环信贷",
     mortgage: "房贷",
     autoLoan: "车贷",
     consumerLoan: "消费贷款",
     educationLoan: "教育贷款",
     otherLoan: "其他贷款",
+    noFixedDueDate: "无固定到期日",
     interestRate: "利率",
     minimumPayment: "最低应还",
     addLiability: "新增负债",
@@ -543,11 +547,13 @@ const copy = {
     liability: "Debt",
     liabilityType: "Debt type",
     creditCard: "Credit card",
+    revolvingCredit: "Revolving credit",
     mortgage: "Mortgage",
     autoLoan: "Auto loan",
     consumerLoan: "Consumer loan",
     educationLoan: "Education loan",
     otherLoan: "Other loan",
+    noFixedDueDate: "No fixed maturity date",
     interestRate: "Interest rate",
     minimumPayment: "Minimum payment",
     addLiability: "Add debt",
@@ -757,11 +763,13 @@ const copy = {
     liability: "負債",
     liabilityType: "負債タイプ",
     creditCard: "クレジットカード",
+    revolvingCredit: "リボルビング信用枠",
     mortgage: "住宅ローン",
     autoLoan: "自動車ローン",
     consumerLoan: "消費者ローン",
     educationLoan: "教育ローン",
     otherLoan: "その他ローン",
+    noFixedDueDate: "固定満期なし",
     interestRate: "金利",
     minimumPayment: "最低支払額",
     addLiability: "負債を追加",
@@ -1920,7 +1928,7 @@ function hasHighInterestDebt() {
   return state.liabilities.some((item) => {
     const type = item.type;
     const rate = Number(item.rate || 0);
-    return type === "creditCard" || type === "consumerLoan" || rate >= 8;
+    return type === "creditCard" || type === "revolvingCredit" || type === "consumerLoan" || rate >= 8;
   });
 }
 
@@ -2428,6 +2436,7 @@ function typeLabel(type) {
     realEstate: "realEstate",
     vehicle: "vehicle",
     creditCard: "creditCard",
+    revolvingCredit: "revolvingCredit",
     mortgage: "mortgage",
     autoLoan: "autoLoan",
     consumerLoan: "consumerLoan",
@@ -2507,6 +2516,23 @@ function statusLabel(status) {
   return status === "partial" ? t("partial") : status === "overdue" ? t("overdue") : t("open");
 }
 
+function liabilityDueLabel(item) {
+  return item.type === "revolvingCredit" || !item.dueDate
+    ? t("noFixedDueDate")
+    : `${t("cardDue")} ${item.dueDate}`;
+}
+
+function renderLiabilityDueDateState() {
+  const form = document.getElementById("liabilityForm");
+  const field = document.getElementById("liabilityDueDateField");
+  const input = document.getElementById("liabilityDueDate");
+  if (!form || !field || !input) return;
+  const hasNoFixedDueDate = form.elements.type.value === "revolvingCredit";
+  field.hidden = hasNoFixedDueDate;
+  input.disabled = hasNoFixedDueDate;
+  if (hasNoFixedDueDate) input.value = "";
+}
+
 function renderLiabilities() {
   const rows = state.liabilities.map((item) => `
     <div class="liability-row" data-row-id="${escapeHtml(item.id)}">
@@ -2515,7 +2541,7 @@ function renderLiabilities() {
         <div class="row-meta">
           <span>${typeLabel(item.type)}</span>
           <span>${t("rate")} ${item.rate}%</span>
-          <span>${t("cardDue")} ${escapeHtml(item.dueDate)}</span>
+          <span>${escapeHtml(liabilityDueLabel(item))}</span>
         </div>
       </div>
       <div class="row-actions">
@@ -2692,6 +2718,7 @@ function render() {
   renderTransactions();
   renderAssets();
   renderLiabilities();
+  renderLiabilityDueDateState();
   renderWalletOptions();
   renderQuickAccountState();
   renderInvestmentCurrencyOptions();
@@ -2786,6 +2813,7 @@ function resetLiabilityEdit() {
   editingLiabilityId = null;
   const form = document.getElementById("liabilityForm");
   form.reset();
+  renderLiabilityDueDateState();
   renderInvestmentCurrencyOptions();
   form.querySelector('button[type="submit"] [data-i18n]').textContent = t("addLiability");
   document.getElementById("liabilityCancelEdit").hidden = true;
@@ -2797,6 +2825,7 @@ function startEditLiability(id) {
   editingLiabilityId = id;
   const form = document.getElementById("liabilityForm");
   form.elements.type.value = item.type;
+  renderLiabilityDueDateState();
   form.elements.name.value = item.name || "";
   form.elements.balance.value = item.balance || 0;
   form.elements.rate.value = item.rate || 0;
@@ -3118,6 +3147,7 @@ function bindEvents() {
     button.addEventListener("click", resetAssetEdit);
   });
   document.getElementById("liabilityCancelEdit").addEventListener("click", resetLiabilityEdit);
+  document.querySelector('#liabilityForm select[name="type"]').addEventListener("change", renderLiabilityDueDateState);
 
   document.getElementById("quickAccountForm").addEventListener("submit", (event) => {
     event.preventDefault();
@@ -3234,14 +3264,15 @@ function bindEvents() {
     const existing = editingLiabilityId
       ? state.liabilities.find((item) => item.id === editingLiabilityId)
       : null;
+    const type = form.get("type");
     const next = {
       ...(existing || {}),
       id: existing?.id || uid("l"),
-      type: form.get("type"),
+      type,
       name: form.get("name"),
       balance: Number(form.get("balance") || 0),
       rate: Number(form.get("rate") || 0),
-      dueDate: form.get("dueDate") || isoDate(30),
+      dueDate: type === "revolvingCredit" ? "" : form.get("dueDate") || isoDate(30),
       minimumPayment: Number(form.get("minimumPayment") || 0),
       currency: form.get("currency") || state.currency
     };
