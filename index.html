@@ -12,9 +12,26 @@
     <link rel="manifest" href="./manifest.webmanifest">
     <link rel="icon" href="./icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="./icon.svg">
-    <link rel="stylesheet" href="./styles.css?v=20260629-3">
+    <link rel="stylesheet" href="./styles.css?v=20260630-1">
   </head>
   <body>
+    <div class="lock-overlay" id="lockOverlay" hidden>
+      <section class="lock-dialog" role="dialog" aria-modal="true" aria-labelledby="lockTitle">
+        <div class="lock-mark" aria-hidden="true"><span data-icon="lock"></span></div>
+        <p class="eyebrow" data-i18n="privacy">隱私保護</p>
+        <h1 id="lockTitle" data-i18n="unlockJarfolio">解鎖 Jarfolio</h1>
+        <p class="lock-intro" data-i18n="unlockHint">輸入裝置密碼以查看財務資料。</p>
+        <form class="lock-form" id="unlockForm">
+          <label>
+            <span data-i18n="pinCode">裝置密碼</span>
+            <input id="unlockPin" name="pin" type="password" inputmode="numeric" autocomplete="current-password" pattern="[0-9]{4,12}" minlength="4" maxlength="12" required>
+          </label>
+          <p class="form-error" id="unlockError" hidden data-i18n="incorrectPin">密碼不正確，請再試一次。</p>
+          <button class="submit-button" type="submit" data-i18n="unlock">解鎖</button>
+        </form>
+      </section>
+    </div>
+
     <div class="onboarding-overlay" id="onboardingOverlay" hidden>
       <section class="onboarding-dialog" role="dialog" aria-modal="true" aria-labelledby="onboardingTitle">
         <div class="onboarding-brand">
@@ -254,6 +271,10 @@
                     <span data-i18n="balance">餘額</span>
                     <input name="balance" type="number" min="0" step="1">
                   </label>
+                  <label>
+                    <span data-i18n="currency">幣別</span>
+                    <select name="currency" class="item-currency"></select>
+                  </label>
                   <button class="ghost-button wide" type="submit">
                     <span data-icon="plus"></span>
                     <span data-i18n="saveAccount">儲存帳戶</span>
@@ -275,6 +296,10 @@
                   <input name="amount" type="number" min="0" step="1" required>
                 </label>
                 <label>
+                  <span data-i18n="transactionDate">日期</span>
+                  <input name="date" id="transactionDate" type="date" required>
+                </label>
+                <label>
                   <span data-i18n="category">分類</span>
                   <select name="category" id="transactionCategory"></select>
                 </label>
@@ -285,6 +310,10 @@
                 <label id="transferToWrap" hidden>
                   <span data-i18n="toAccount">轉入帳戶</span>
                   <select name="toAccount" id="transferToAccount"></select>
+                </label>
+                <label id="debtTargetWrap" hidden>
+                  <span data-i18n="debtTarget">償還負債</span>
+                  <select name="liability" id="transactionLiability"></select>
                 </label>
                 <p class="fineprint wide" id="transactionAccountHint" data-i18n="selectAccountFirst">請先新增一個帳戶，才能記帳。</p>
                 <label class="wide">
@@ -360,10 +389,15 @@
                   <span data-i18n="balance">餘額</span>
                   <input name="balance" type="number" min="0" step="1">
                 </label>
+                <label>
+                  <span data-i18n="currency">幣別</span>
+                  <select name="currency" class="item-currency"></select>
+                </label>
                 <button class="submit-button wide" type="submit">
                   <span data-icon="plus"></span>
                   <span data-i18n="addLiquid">新增流動資金</span>
                 </button>
+                <button class="ghost-button wide asset-cancel-edit" type="button" hidden data-i18n="cancelEdit">取消編輯</button>
               </form>
 
               <form class="form-grid asset-form" id="investmentForm" data-asset-form="investments">
@@ -398,6 +432,7 @@
                   <span data-icon="plus"></span>
                   <span data-i18n="addInvestment">新增投資</span>
                 </button>
+                <button class="ghost-button wide asset-cancel-edit" type="button" hidden data-i18n="cancelEdit">取消編輯</button>
               </form>
 
               <form class="form-grid asset-form" id="fixedForm" data-asset-form="fixed">
@@ -421,10 +456,15 @@
                   <span data-i18n="currentValue">目前估值</span>
                   <input name="currentValue" type="number" min="0" step="1">
                 </label>
+                <label>
+                  <span data-i18n="currency">幣別</span>
+                  <select name="currency" class="item-currency"></select>
+                </label>
                 <button class="submit-button wide" type="submit">
                   <span data-icon="plus"></span>
                   <span data-i18n="addFixed">新增固定資產</span>
                 </button>
+                <button class="ghost-button wide asset-cancel-edit" type="button" hidden data-i18n="cancelEdit">取消編輯</button>
               </form>
 
               <form class="form-grid asset-form" id="receivableForm" data-asset-form="receivables">
@@ -448,10 +488,15 @@
                     <option value="overdue" data-i18n="overdue">逾期</option>
                   </select>
                 </label>
+                <label>
+                  <span data-i18n="currency">幣別</span>
+                  <select name="currency" class="item-currency"></select>
+                </label>
                 <button class="submit-button wide" type="submit">
                   <span data-icon="plus"></span>
                   <span data-i18n="addReceivable">新增應收款</span>
                 </button>
+                <button class="ghost-button wide asset-cancel-edit" type="button" hidden data-i18n="cancelEdit">取消編輯</button>
               </form>
             </section>
 
@@ -508,10 +553,15 @@
                   <span data-i18n="minimumPayment">最低應繳</span>
                   <input name="minimumPayment" type="number" min="0" step="1">
                 </label>
+                <label>
+                  <span data-i18n="currency">幣別</span>
+                  <select name="currency" class="item-currency"></select>
+                </label>
                 <button class="submit-button wide" type="submit">
                   <span data-icon="plus"></span>
                   <span data-i18n="addLiability">新增負債</span>
                 </button>
+                <button class="ghost-button wide" id="liabilityCancelEdit" type="button" hidden data-i18n="cancelEdit">取消編輯</button>
               </form>
             </section>
 
@@ -660,6 +710,37 @@
               <p class="fineprint" data-i18n="educationOnly">配置僅供教育與預算規劃參考，不構成投資、稅務或貸款建議。</p>
             </section>
 
+            <section class="panel data-panel">
+              <div class="panel-head">
+                <div>
+                  <p class="eyebrow" data-i18n="dataSafety">資料安全</p>
+                  <h2 data-i18n="privacyAndBackup">隱私與備份</h2>
+                </div>
+                <span class="pill" id="pinStatus"></span>
+              </div>
+              <form class="form-grid" id="pinForm">
+                <label>
+                  <span data-i18n="newPin">設定裝置密碼</span>
+                  <input name="pin" type="password" inputmode="numeric" autocomplete="new-password" pattern="[0-9]{4,12}" minlength="4" maxlength="12" required>
+                </label>
+                <label>
+                  <span data-i18n="confirmPin">再次輸入密碼</span>
+                  <input name="confirmPin" type="password" inputmode="numeric" autocomplete="new-password" pattern="[0-9]{4,12}" minlength="4" maxlength="12" required>
+                </label>
+                <p class="fineprint wide" data-i18n="pinPrivacyNote">裝置密碼可防止他人直接打開 App，但不等同雲端帳號密碼。請妥善保存備份。</p>
+                <button class="submit-button" type="submit" data-i18n="savePin">儲存密碼</button>
+                <button class="ghost-button" id="removePin" type="button" data-i18n="removePin">移除密碼</button>
+              </form>
+              <div class="backup-actions">
+                <button class="ghost-button" id="exportBackup" type="button" data-i18n="exportBackup">匯出備份</button>
+                <label class="ghost-button file-button">
+                  <span data-i18n="importBackup">匯入備份</span>
+                  <input id="importBackup" type="file" accept="application/json,.json">
+                </label>
+              </div>
+              <p class="fineprint" data-i18n="backupHint">備份檔包含你的財務資料，請只存放在可信任的位置。</p>
+            </section>
+
             <section class="panel support-panel">
               <div class="panel-head">
                 <div>
@@ -712,7 +793,7 @@
 
     <div class="toast" id="toast" aria-live="polite"></div>
 
-    <script src="./app.js?v=20260629-4"></script>
+    <script src="./app.js?v=20260630-1"></script>
     <script>
       if ("serviceWorker" in navigator && location.protocol !== "file:") {
         window.addEventListener("load", () => {
