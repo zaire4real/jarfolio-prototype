@@ -2973,13 +2973,14 @@ function bindEvents() {
 
   document.getElementById("unlockForm").addEventListener("submit", async (event) => {
     event.preventDefault();
-    const pin = new FormData(event.currentTarget).get("pin");
+    const formElement = event.currentTarget;
+    const pin = new FormData(formElement).get("pin");
     const hash = await hashPin(pin, state.security.pinSalt);
     const isValid = hash === state.security.pinHash;
     document.getElementById("unlockError").hidden = isValid;
     if (!isValid) return;
     sessionStorage.setItem(unlockSessionKey, state.security.pinHash);
-    event.currentTarget.reset();
+    formElement.reset();
     renderLockState();
   });
 
@@ -3271,7 +3272,8 @@ function bindEvents() {
 
   document.getElementById("pinForm").addEventListener("submit", async (event) => {
     event.preventDefault();
-    const form = new FormData(event.currentTarget);
+    const formElement = event.currentTarget;
+    const form = new FormData(formElement);
     const pin = String(form.get("pin") || "");
     if (pin !== String(form.get("confirmPin") || "")) {
       toast(t("pinMismatch"));
@@ -3280,7 +3282,7 @@ function bindEvents() {
     state.security = await createPinRecord(pin);
     sessionStorage.setItem(unlockSessionKey, state.security.pinHash);
     saveState();
-    event.currentTarget.reset();
+    formElement.reset();
     renderSecurity();
     toast(t("pinSaved"));
   });
